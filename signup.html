@@ -116,7 +116,7 @@
     
             <nav class="navbar" data-navbar>
               <div class="navbar-top">
-                <a href="index.html" class="logo">
+                <a href="index.php" class="logo">
                   <img src="./assets/images/logo1.jpg" alt="KREPM">
                 </a>
     
@@ -128,7 +128,7 @@
               <div class="navbar-bottom">
                 <ul class="navbar-list">
                   <li>
-                    <a href="index.html" class="navbar-link" data-nav-link>Home</a>
+                    <a href="index.php" class="navbar-link" data-nav-link>Home</a>
                   </li>
                   <li>
                     <a href="login.html" class="navbar-link" data-nav-link>Log in</a>
@@ -168,12 +168,10 @@
     <section class="form-container">
         <form action="" method="post">
             <h2>Create an account!</h2>
-            <label for="fname">Username</label>
+            <label for="username">Username</label>
             <input type="text" id="username" name="username" required maxlength="50" placeholder="Enter your username" class="box">
-            <label for="fname">First name</label>
-            <input type="text" id="fname" name="fname" required maxlength="50" placeholder="Enter your first name" class="box">
-            <label for="lname">Last name</label>
-            <input type="text" id="lname" name="lname" required maxlength="50" placeholder="Enter your last name" class="box">
+            <label for="fname">Full name</label>
+            <input type="text" id="full_name" name="full_name" required maxlength="50" placeholder="Enter your full name" class="box">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required maxlength="50" placeholder="Enter your email" class="box">
             <label for="user_type">User Type</label>
@@ -192,114 +190,113 @@
     </section>
 </div>
 </main>
-
 <!-- #FOOTER-->
 <footer class="footer">
-    <div class="footer-top">
-      <div class="container">
-        <div class="footer-brand">
-          <a href="index.html" class="logo">
-            <img src="./assets/images/logo1.jpg" alt="KREPM logo">
-            <p >Kitale Real Estate & Property Management </p>
-          </a>
+  <div class="footer-top">
+    <div class="container">
+      <div class="footer-brand">
+        <a href="index.php" class="logo">
+          <img src="./assets/images/favicon.ico" alt="KREPM logo">
+          <p >Kitale Real Estate & Property Management </p>
+        </a>
 
-          <p class="section-text">
-            Feel free to explore our website and contact us for any inquiries or assistance.
-          </p>
-
-          <ul class="contact-list">
-            <li>
-              <a href="#" class="contact-link">
-                <ion-icon name="location-outline"></ion-icon>
-                <address>4th Floor, One Tana Towers, Kitale</address>
-              </a>
-            </li>
-
-            <li>
-              <a href="tel:+254716519766" class="contact-link">
-                <ion-icon name="call-outline"></ion-icon>
-                <span>+254716519766</span>
-              </a>
-            </li>
-
-            <li>
-              <a href="mailto:mbitumutonga@gmail.com" class="contact-link" target="_blank">
-                <ion-icon name="mail-outline"></ion-icon>
-                <span>mbitumutonga@gmail.com</span>
-              </a>
-            </li>
-
-          </ul>
-
-          <ul class="social-list">
-            <li>
-              <a href="https://www.facebook.com/MbituJames" class="social-link" target="_blank">
-                <ion-icon name="logo-facebook"></ion-icon>
-              </a>
-            </li>
-
-            <li>
-              <a href="https://x.com/mbituke?t=mv9XXsRlVtVuec1vDPbUbQ&s=09" class="social-link" target="_blank">
-                <ion-icon name="logo-twitter"></ion-icon>
-              </a>
-            </li>
-
-            <li>
-              <a href="https://www.linkedin.com/in/mbitujames/" class="social-link" target="_blank">
-                <ion-icon name="logo-linkedin"></ion-icon>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="footer-link-box">
-          <ul class="footer-list">
-            <li>
-              <p class="footer-list-title">Company</p>
-            </li>
-
-            <li>
-              <a href="index.html" class="footer-link">About Us</a>
-            </li>
-
-            <li>
-              <a href="index.html" class="footer-link">Reviews</a>
-            </li>
-
-            <li>
-              <a href="index.html" class="footer-link">Properties</a>
-            </li>
-
-            <li>
-              <a href="index.html" class="footer-link">Contact us</a>
-            </li>
-
-          </ul>
-
-          <ul class="footer-list">
-            <li>
-              <p class="footer-list-title">Services</p>
-            </li>
-            <li>
-              <a href="login.html" class="footer-link">Login</a>
-            </li>
-
-            <li>
-              <a href="#" class="footer-link">My account</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <div class="container">
-        <p class="copyright">
-          &copy; 2024 <a href="index.html">Kitale Real Estate & Property Management</a>. All Rights Reserved
+        <p class="section-text">
+          Feel free to explore our website and contact us for any inquiries or assistance.
         </p>
+
+        <ul class="contact-list">
+          <li>
+            <a href="index.php" class="contact-link">
+              <ion-icon name="location-outline"></ion-icon>
+              <address>4th Floor, One Tana Towers, Kitale</address>
+            </a>
+          </li>
+
+          <li>
+            <a href="tel:+254716519766" class="contact-link">
+              <ion-icon name="call-outline"></ion-icon>
+              <span>+254716519766</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="mailto:mbitumutonga@gmail.com" class="contact-link" target="_blank">
+              <ion-icon name="mail-outline"></ion-icon>
+              <span>mbitumutonga@gmail.com</span>
+            </a>
+          </li>
+
+        </ul>
+
+        <ul class="social-list">
+          <li>
+            <a href="https://www.facebook.com/MbituJames" class="social-link" target="_blank">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+          </li>
+
+          <li>
+            <a href="https://x.com/mbituke?t=mv9XXsRlVtVuec1vDPbUbQ&s=09" class="social-link" target="_blank">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.linkedin.com/in/mbitujames/" class="social-link" target="_blank">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-link-box">
+        <ul class="footer-list">
+          <li>
+            <p class="footer-list-title">Company</p>
+          </li>
+
+          <li>
+            <a href="index.php" class="footer-link">About Us</a>
+          </li>
+
+          <li>
+            <a href="index.php" class="footer-link">Reviews</a>
+          </li>
+
+          <li>
+            <a href="index.php" class="footer-link">Properties</a>
+          </li>
+
+          <li>
+            <a href="index.php" class="footer-link">Contact us</a>
+          </li>
+
+        </ul>
+
+        <ul class="footer-list">
+          <li>
+            <p class="footer-list-title">Services</p>
+          </li>
+          <li>
+            <a href="login.html" class="footer-link">Login</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">My account</a>
+          </li>
+        </ul>
       </div>
     </div>
-  </footer>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <p class="copyright">
+        &copy; 2024 <a href="index.php">Kitale Real Estate & Property Management</a>. All Rights Reserved
+      </p>
+    </div>
+  </div>
+</footer>
 
   <!-- custom js link-->
   <script src="./assets/js/script.js"></script>

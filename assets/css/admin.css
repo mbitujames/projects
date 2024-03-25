@@ -1,0 +1,102 @@
+/* CSS styles */
+body {
+    font-family: Arial, sans-serif;
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+.card-container {
+    display: flex; /* Use flexbox to arrange cards horizontally */
+    justify-content: space-between; /* Distribute cards evenly with space */
+    width: 100%; /* Ensure cards fill the available space */
+  }
+  
+  .card {
+    background-color: A8D0DB;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  .card h2 {
+    margin-bottom: 10px;
+  }
+  
+  .card label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .recent-activities ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .recent-activities li {
+    margin-bottom: 5px;
+  }
+  .card.add-property {
+    background-color: A8D0DB;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    margin-bottom: 20px;
+    width: 100%; /* Adjust width as needed */
+  }
+  .card.properties {
+    background-color: A8D0DB;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    margin-bottom: 20px;
+    width: 100%; /* Adjust width as needed */
+  }
+  
+  .table-image {
+    width: 50px; /* Adjust image width as desired */
+    height: auto; /* Maintain aspect ratio */
+  }
+  /*code for the section update user*/
+  .update-user {
+    margin-top: 20px;
+  }
+  
+  .card input[type="text"],
+  .card input[type="email"],
+  .card input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .card button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .card button:hover {
+    background-color: #0056b3;
+  }
+  
+  
+  

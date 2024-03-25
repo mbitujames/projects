@@ -17,7 +17,7 @@
             </p>
 
             <button class="btn">
-                <a href="signup.html">Get Started</a>
+                <a href="/signup.php">Get Started Now</a>
             </button>
         </div>
 

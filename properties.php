@@ -15,7 +15,9 @@
 
 <body>
     <!-- #HEADER-->
-    <?php include './php/components/header.php'; ?>
+    <?php include "./php/components/header.php";
+    ?>
+</header>
 
     <main>
         <article>

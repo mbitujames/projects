@@ -1,3 +1,27 @@
+<?php
+// Include database connection file
+include_once './data/db.php';
+
+// Process signup form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $full_name = $_POST['full_name'];
+    $email = $_POST['email'];
+    $role = $_POST['user_type'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
+
+    // Insert user data into the database
+    $sql = "INSERT INTO Users (full_name, email, role, password) VALUES ('$full_name', '$email', '$role', '$password')";
+    if (mysqli_query($conn, $sql)) {
+        echo "Sign up successful!";
+        // Redirect user to login page
+        header("Location: login.php");
+        exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -110,13 +134,13 @@
         <div class="header-bottom">
           <div class="container">
     
-            <a href="index.html" class="logo">
+            <a href="./index.php" class="logo">
               <img src="./assets/images/logo1.jpg" alt="KREPM">
             </a>
     
             <nav class="navbar" data-navbar>
               <div class="navbar-top">
-                <a href="index.php" class="logo">
+                <a href="./index.php" class="logo">
                   <img src="./assets/images/logo1.jpg" alt="KREPM">
                 </a>
     
@@ -128,10 +152,10 @@
               <div class="navbar-bottom">
                 <ul class="navbar-list">
                   <li>
-                    <a href="index.php" class="navbar-link" data-nav-link>Home</a>
+                    <a href="./index.php" class="navbar-link" data-nav-link>Home</a>
                   </li>
                   <li>
-                    <a href="login.html" class="navbar-link" data-nav-link>Log in</a>
+                    <a href="./login.php" class="navbar-link" data-nav-link>Log in</a>
                   </li>
     
                 </ul>
@@ -147,8 +171,8 @@
                 </button>
             
                 <div id="dropdown-content" class="dropdown-content">
-                  <a href="login.html">Login</a>
-                  <a href="signup.html">Signup</a>
+                  <a href="./login.php">Login</a>
+                  <a href="./signup.php">Signup</a>
                 </div>
               </div>
     
@@ -184,18 +208,19 @@
             <input type="password" id="password" name="password" required maxlength="50" placeholder="Enter your password" class="box">
             <label for="password">Confirm Password</label>
             <input type="password" id="cpassword" name="cpassword" required maxlength="50" placeholder="Confirm your password" class="box">
-            <p>already have an account? <a href="login.html">Login now</a></p><br>
+            <p>already have an account? <a href="./login.php">Login now</a></p><br>
             <button type="submit"> Sign Up</button>
         </form>
     </section>
 </div>
+
 </main>
 <!-- #FOOTER-->
 <footer class="footer">
   <div class="footer-top">
     <div class="container">
       <div class="footer-brand">
-        <a href="index.php" class="logo">
+        <a href="./login.php" class="logo">
           <img src="./assets/images/favicon.ico" alt="KREPM logo">
           <p >Kitale Real Estate & Property Management </p>
         </a>
@@ -256,19 +281,19 @@
           </li>
 
           <li>
-            <a href="index.php" class="footer-link">About Us</a>
+            <a href="./index.php" class="footer-link">About Us</a>
           </li>
 
           <li>
-            <a href="index.php" class="footer-link">Reviews</a>
+            <a href="./index.php" class="footer-link">Reviews</a>
           </li>
 
           <li>
-            <a href="index.php" class="footer-link">Properties</a>
+            <a href="./properties.php" class="footer-link">Properties</a>
           </li>
 
           <li>
-            <a href="index.php" class="footer-link">Contact us</a>
+            <a href="./index.php" class="footer-link">Contact us</a>
           </li>
 
         </ul>
@@ -278,11 +303,11 @@
             <p class="footer-list-title">Services</p>
           </li>
           <li>
-            <a href="login.html" class="footer-link">Login</a>
+            <a href="./login.php" class="footer-link">Login</a>
           </li>
 
           <li>
-            <a href="#" class="footer-link">My account</a>
+            <a href="./admin_panel.php" class="footer-link">My account</a>
           </li>
         </ul>
       </div>
@@ -292,7 +317,7 @@
   <div class="footer-bottom">
     <div class="container">
       <p class="copyright">
-        &copy; 2024 <a href="index.php">Kitale Real Estate & Property Management</a>. All Rights Reserved
+        &copy; 2024 <a href="./index.php">Kitale Real Estate & Property Management</a>. All Rights Reserved
       </p>
     </div>
   </div>

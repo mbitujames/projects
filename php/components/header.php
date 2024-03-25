@@ -116,8 +116,8 @@
                     </button>
 
                     <div id="dropdown-content" class="dropdown-content">
-                        <a href="login.html">Login</a>
-                        <a href="signup.html">Signup</a>
+                        <a href="login.php">Login</a>
+                        <a href="signup.php">Signup</a>
                     </div>
                 </div>
 

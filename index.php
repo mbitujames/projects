@@ -264,7 +264,7 @@
   </main>
   <!-- #FOOTER-->
   <?php
-  require('./php/components/footer.php')
+  require('./php/components/footer.php');
   ?>
   <!-- custom js link-->
   <script src="./assets/js/script.js"></script>

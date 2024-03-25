@@ -96,7 +96,7 @@
     <div class="property-list">
         <p class="section-subtitle">New Listings</p>
         <h2 class="h2 section-title"> Latest Properties Listings</h2>
-        <!-- add link to all propertyies page -->
+        <!-- add link to all properties page -->
         <div class="filters">
             <select onchange="filterFunction()" id="sortby">
                 <option value="property-type">Sort by Type</option>

@@ -87,7 +87,7 @@
         }
 
         // Close the database connection
-        mysqli_close($conn);
+        // mysqli_close($conn);
         ?>
     </div>
 </section>
@@ -106,7 +106,7 @@
         </div>
         <!--List of Properties -->
         <?php
-        require_once './data/db.php';
+        // require_once './data/db.php';
         $sql = "SELECT * FROM properties ORDER BY property_id DESC LIMIT 6";
         $result = mysqli_query($conn, $sql);
 

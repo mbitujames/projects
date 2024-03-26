@@ -70,34 +70,34 @@
                 <div class="navbar-bottom">
                     <ul class="navbar-list">
                         <li>
-                            <a href="#home" class="navbar-link" data-nav-link>Home</a>
+                            <a href="index.php#home" class="navbar-link" data-nav-link>Home</a>
                         </li>
 
                         <li>
-                            <a href="#about" class="navbar-link" data-nav-link>About</a>
+                            <a href="index.php#about" class="navbar-link" data-nav-link>About</a>
                         </li>
 
                         <li>
-                            <a href="#service" class="navbar-link" data-nav-link>Service</a>
+                            <a href="index.php/#service" class="navbar-link" data-nav-link>Service</a>
                         </li>
 
                         <li>
-                            <a href="#property" class="navbar-link" data-nav-link>Property</a>
+                            <a href="index.php#property" class="navbar-link" data-nav-link>Property</a>
                         </li>
                         <li>
                             <a href="./properties.php" class="navbar-link" data-nav-link>All Properties</a>
                         </li>
 
                         <li>
-                            <a href="#search-btn" class="navbar-link" data-nav-link>Search</a>
+                            <a href="index.php#search-btn" class="navbar-link" data-nav-link>Search</a>
                         </li>
 
                         <li>
-                            <a href="#contact" class="navbar-link" data-nav-link>Contact</a>
+                            <a href="index.php#contact" class="navbar-link" data-nav-link>Contact</a>
                         </li>
 
                         <li>
-                            <a href="#reviews" class="navbar-link" data-nav-link>Reviews</a>
+                            <a href="index.php#reviews" class="navbar-link" data-nav-link>Reviews</a>
                         </li>
                     </ul>
                 </div>

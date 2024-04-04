@@ -27,7 +27,6 @@
       <?php include './php/components/about.php'; ?>
       <!-- #SERVICE-->
       <?php include './php/components/services.php'; ?>
-
       <!-- -#PROPERTY LISTING-->
       <?php include './php/components/properties.php'; ?>
       <!-- #FEATURES-->
@@ -112,7 +111,7 @@
           <div class="box-container">
             <div class="box">
               <div class="user">
-                <img src="./assets/images/pic1.jpg" alt="pic1">
+                <img src="./data/uploads/pic1.jpg" alt="pic1">
                 <div>
                   <h3>Collins Tyler </h3>
                   <div class="stars">
@@ -129,7 +128,7 @@
             </div>
             <div class="box">
               <div class="user">
-                <img src="./assets/images/pic2.jpg" alt="pic2">
+                <img src="./data/uploads/pic2.jpg" alt="pic2">
                 <div>
                   <h3>Serah Wangeci </h3>
                   <div class="stars">
@@ -146,7 +145,7 @@
             </div>
             <div class="box">
               <div class="user">
-                <img src="./assets/images/pic3.jpg" alt="pic3">
+                <img src="./data/uploads/pic3.jpg" alt="pic3">
                 <div>
                   <h3>Simon Tembu </h3>
                   <div class="stars">
@@ -163,7 +162,7 @@
             </div>
             <div class="box">
               <div class="user">
-                <img src="./assets/images/pic4.png" alt="pic4">
+                <img src="./data/uploads/pic4.png" alt="pic4">
                 <div>
                   <h3>Mbue Peter </h3>
                   <div class="stars">
@@ -180,7 +179,7 @@
             </div>
             <div class="box">
               <div class="user">
-                <img src="./assets/images/pic5.jpg" alt="pic5">
+                <img src="./data/uploads/pic5.jpg" alt="pic5">
                 <div>
                   <h3>Tiffany Wainaina </h3>
                   <div class="stars">
@@ -197,7 +196,7 @@
             </div>
             <div class="box">
               <div class="user">
-                <img src="./assets/images/pic6.jpg" alt="pic6">
+                <img src="./data/uploads/pic6.jpg" alt="pic6">
                 <div>
                   <h3>Mickey Kendi </h3>
                   <div class="stars">

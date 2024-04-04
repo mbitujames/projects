@@ -32,6 +32,13 @@ CREATE TABLE Testimonials (
     review TEXT
 );
 
+CREATE TABLE activities (
+    activity_id INT AUTO_INCREMENT PRIMARY KEY,
+    activity_description VARCHAR(255),
+    activity_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 -- featured properties 
 
 -- Property 1

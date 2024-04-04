@@ -49,14 +49,50 @@ th {
   .recent-activities li {
     margin-bottom: 5px;
   }
-  .card.add-property {
-    background-color: A8D0DB;
-    padding: 20px;
+  /*Css for the adding property division*/
+  .card.add-property form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card.add-property label {
+    margin-bottom: 10px;
+}
+
+.card.add-property input[type="text"],
+.card.add-property input[type="number"],
+.card.add-property input[type="url"],
+.card.add-property select,
+.card.add-property textarea {
+    width: calc(100% - 20px); /* Adjust width and consider padding */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
-    margin-bottom: 20px;
-    width: 100%; /* Adjust width as needed */
-  }
+    box-sizing: border-box;
+}
+
+.card.add-property textarea {
+    height: 150px; /* Adjust the height of the textarea */
+}
+
+.card.add-property button {
+    width: 50%; /* Adjust the width of the button */
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card.add-property button:hover {
+    background-color: #45a049;
+}
+
+  /*end of the adding property division*/
   .card.properties {
     background-color: A8D0DB;
     padding: 20px;

@@ -443,40 +443,40 @@ button, a { transition: var(--transition); }
 
 /*SEARCH SECTION*/
 .Search {
-   /* Optional background color */
-  padding: 20px;
-  border-radius: 5px; /* Rounded corners for section */
-  text-align: center; /* Center text within section */
+  /* Optional background color */
+ padding: 20px;
+ border-radius: 5px; /* Rounded corners for section */
+ text-align: center; /* Center text within section */
 }
 
 .Search H2 {
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  color: #333; /* Adjust text color */
+ margin-bottom: 20px;
+ font-size: 1.8rem;
+ color: #333; /* Adjust text color */
 }
 
 .search-container {
-  display: flex;
-  flex-wrap: wrap; /* Allow elements to wrap on small screens */
-  justify-content: space-between; /* Space elements evenly */
+ display: flex;
+ flex-wrap: wrap; /* Allow elements to wrap on small screens */
+ justify-content: space-between; /* Space elements evenly */
 }
 
 .search-container select,
 .search-container input[type="text"],
 .search-container input[type="number"] {
-  width: calc(48% - 10px); /* Adjust width for two elements per row */
-  padding: 10px;
-  border: 1px solid #ccc; /* Adjust border style */
-  border-radius: 5px; /* Rounded corners for each element */
-  margin-bottom: 10px;
-  font-size: 16px;
+ width: calc(48% - 10px); /* Adjust width for two elements per row */
+ padding: 10px;
+ border: 1px solid #ccc; /* Adjust border style */
+ border-radius: 5px; /* Rounded corners for each element */
+ margin-bottom: 10px;
+ font-size: 16px;
 }
 
 .search-container .btn {
-  max-width: fit-content;
-  --text-transform: uppercase;
-  cursor: pointer;/* Indicate clickable element */
-  border-radius: 5px; /* Rounded corners for button */
+ max-width: fit-content;
+ --text-transform: uppercase;
+ cursor: pointer;/* Indicate clickable element */
+ border-radius: 5px; /* Rounded corners for button */
 
 }
   
@@ -1304,11 +1304,6 @@ button, a { transition: var(--transition); }
   }
 
   .features-card .card-title { --fs-6: 1.125rem; }
-
-  /* BLOG */
-  .blog-card { --fs-7: 0.875rem; }
-  .blog-title { font-size: 1.25rem; }
-  .blog .card-meta-list { gap: 30px; }
 
   /* CONTACT US*/
   .about-banner {

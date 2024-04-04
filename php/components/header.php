@@ -22,30 +22,40 @@
                             <ion-icon name="logo-facebook"></ion-icon>
                         </a>
                     </li>
-
                     <li>
                         <a href="https://x.com/mbituke?t=mv9XXsRlVtVuec1vDPbUbQ&s=09" class="header-top-social-link" target="_blank">
                             <ion-icon name="logo-twitter"></ion-icon>
                         </a>
                     </li>
-
                     <li>
                         <a href="https://www.instagram.com/mbitu?igsh=MWs3bG53cHhwYWNpOA==" class="header-top-social-link" target="_blank">
                             <ion-icon name="logo-instagram"></ion-icon>
                         </a>
                     </li>
-
                     <li>
                         <a href="https://pin.it/2fseiKYde" class="header-top-social-link" target="_blank">
                             <ion-icon name="logo-pinterest"></ion-icon>
                         </a>
                     </li>
-
                 </ul>
+                <button class="header-top-btn" onclick="redirectToAdminPanel()">Add Listing</button>
 
-                <button class="header-top-btn">Add Listing</button>
+                <script>
+                function redirectToAdminPanel() {
+                    // Check if the user is logged in as an admin
+                    var isAdmin = true;
+                    // If the user is an admin, redirect to the admin panel page
+                    if (isAdmin) {
+                        window.location.href = 'admin_panel.php'; 
+                    } else {
+                        window.location.href = 'index.php';
+                        alert("Please log in as Admin");
+                    }
+                }
+                </script>
+                
             </div>
-
+            </div>
         </div>
     </div>
 
@@ -78,7 +88,7 @@
                         </li>
 
                         <li>
-                            <a href="index.php/#service" class="navbar-link" data-nav-link>Service</a>
+                            <a href="index.php#service" class="navbar-link" data-nav-link>Service</a>
                         </li>
 
                         <li>

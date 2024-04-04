@@ -32,13 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     header('Location: admin_panel.php');
     exit;
 }
-
-// Fetch properties data from the database
-$sql = "SELECT * FROM properties ORDER BY property_id DESC";
-$result = mysqli_query($conn, $sql);
-
-// Close the database connection
-mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -149,7 +142,7 @@ mysqli_close($conn);
               echo "<li>" . $row['activity'] . " - " . $row['activity_date'] . "</li>";
             }
           } else {
-            echo "No recent activities found.";
+            echo "<li>No recent activities found.</li>";
           }
         ?>
       </ul>
@@ -185,9 +178,8 @@ mysqli_close($conn);
 
         <label for="property_type">Type:</label>
         <select id="property_type" name="property_type" required>
-        <option value="House">House</option>
-        <option value="Apartment">Apartment</option>
-        <option value="Condo">Villa</option>
+        <option value="rent">Rent</option>
+        <option value="sale">Sale</option>
         </select>
 
         <label for="image_url">Image URL:</label>
@@ -196,51 +188,54 @@ mysqli_close($conn);
         <button type="submit" name="submit">Add Property</button>
     </form>
     </div>
-    
     <div class="card properties">
-    <h2>Properties</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Title</th>
-          <th>Location</th>
-          <th>Status</th>
-          <th>Price</th>
-          <th>Bedrooms</th>
-          <th>Bathrooms</th>
-          <th>Square Ft</th>
-          <th>Type</th>
-          <th>Image</th>
-        </tr>
-      </thead>
-      <tbody>
-          <?php 
-          // Check if the query was successful
-          if ($result === false) {
-              echo "<tr><td colspan='10'>Error fetching properties: " . mysqli_error($conn) . "</td></tr>";
-          } else {
-              // Fetch and display properties
-              while ($row = mysqli_fetch_assoc($result)) {
-                  echo "<tr>";
-                  echo "<td>" . $row['property_id'] . "</td>";
-                  echo "<td>" . $row['title'] . "</td>";
-                  echo "<td>" . $row['location'] . "</td>";
-                  echo "<td>" . $row['status'] . "</td>";
-                  echo "<td>" . $row['price'] . "</td>";
-                  echo "<td>" . $row['bedrooms'] . "</td>";
-                  echo "<td>" . $row['bathrooms'] . "</td>";
-                  echo "<td>" . $row['square_ft'] . "</td>";
-                  echo "<td>" . $row['property_type'] . "</td>";
-                  echo "<td><img src='" . $row['image_url'] . "' alt='" . $row['title'] . "' class='table-image'></td>";
-                  echo "</tr>";
-              }
-          }
-          ?>
-      </tbody>
+  <h2>Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th>Price</th>
+        <th>Bedrooms</th>
+        <th>Bathrooms</th>
+        <th>Square Ft</th>
+        <th>Type</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      //Query to fetch properties from your Properties table
+      $query = "SELECT * FROM Properties ORDER BY property_id DESC"; 
+      $result = mysqli_query($conn, $query);
+      // Check if the query was successful
+      if ($result === false) {
+        echo "<tr><td colspan='10'>Error fetching properties: " . mysqli_error($conn) . "</td></tr>";
+      } else {
+        echo "Number of properties found: " . $result->num_rows . "<br>"; // Add this line
+        // Fetch and display properties
+        while ($row = mysqli_fetch_assoc($result)) {
+          echo "<tr>";
+          echo "<td>" . $row['property_id'] . "</td>";
+          echo "<td>" . $row['title'] . "</td>";
+          echo "<td>" . $row['location'] . "</td>";
+          echo "<td>" . $row['status'] . "</td>";
+          echo "<td>" . $row['price'] . "</td>";
+          echo "<td>" . $row['bedrooms'] . "</td>";
+          echo "<td>" . $row['bathrooms'] . "</td>";
+          echo "<td>" . $row['square_ft'] . "</td>";
+          echo "<td>" . $row['property_type'] . "</td>";
+          echo "<td><img src='" . $row['image_url'] . "' alt='" . $row['title'] . "' class='table-image'></td>";
+          echo "</tr>";
+        }
+      }
+      ?>
+    </tbody>
   </table>
-  </div>
 </div>
+
 </body>
 
 

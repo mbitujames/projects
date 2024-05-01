@@ -36,7 +36,7 @@
                         <a href="mailto:mbitumutonga@gmail.com" class="contact-link" target="_blank">
                             <ion-icon name="mail-outline"></ion-icon>
 
-                            <span>mbitumutonga@gmail.com</span>
+                            <span>krepmestates@gmail.com</span>
                         </a>
                     </li>
 
@@ -79,7 +79,7 @@
                     </li>
 
                     <li>
-                        <a href="#blog" class="footer-link">Reviews</a>
+                        <a href="#reviews" class="footer-link">Reviews</a>
                     </li>
 
                     <li>
@@ -98,11 +98,11 @@
                         <p class="footer-list-title">Services</p>
                     </li>
                     <li>
-                        <a href="#" class="footer-link">Login</a>
+                        <a href="login.php" class="footer-link">Login</a>
                     </li>
 
                     <li>
-                        <a href="#" class="footer-link">My account</a>
+                        <a href="login.php" class="footer-link">My account</a>
                     </li>
                 </ul>
 

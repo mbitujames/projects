@@ -112,23 +112,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
       ?>
     </p>
     </div>
-    <section class="update-user">
-  <div class="card">
+  <section class="update-user">
+    <div class="card">
     <h2>Update User</h2>
     <form action="update_user.php" method="post">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required>
-
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" required>
 
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required>
 
+      <!-- Include user_id as a hidden field -->
+      <input type="hidden" id="user_id" name="user_id" value="<?php echo $_POST['user_id']; ?>">
+      
       <button type="submit" name="submit">Update User</button>
     </form>
-  </div>
-</section>
+    </div>
+  </section>
 
     <div class="card recent-activities">
       <h2>Recent Activities</h2>

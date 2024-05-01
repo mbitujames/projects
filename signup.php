@@ -190,7 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!--sign up section-->
     <div class="signup-section">
     <section class="form-container">
-        <form action="" method="post">
+        <form action="" method="post" onsubmit="return validatePassword()">
             <h2>Create an account!</h2>
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required maxlength="50" placeholder="Enter your username" class="box">
@@ -208,6 +208,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="password" id="password" name="password" required maxlength="50" placeholder="Enter your password" class="box">
             <label for="password">Confirm Password</label>
             <input type="password" id="cpassword" name="cpassword" required maxlength="50" placeholder="Confirm your password" class="box">
+            <!-- A div to display password requirements -->
+            <div id="password-requirements" style="display: none; color: red;">
+            </div>
             <p>already have an account? <a href="./login.php">Login now</a></p><br>
             <button type="submit"> Sign Up</button>
         </form>
@@ -325,6 +328,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   <!-- custom js link-->
   <script src="./assets/js/script.js"></script>
+  <!-- the JavaScript validation -->
+  <script src="./assets/js/password-validation.js"></script>
 
   <!-- ionicon link-->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

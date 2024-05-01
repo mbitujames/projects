@@ -223,7 +223,7 @@
             <figure class="about-banner">
               <img src="./assets/images/contactus.png" alt="About us">
             </figure>
-            <form action="" method="post">
+            <form action="send_email.php" method="post">
               <h3>Contact us</h3>
               <label for="name">Name:</label>
               <input type="text" name="name" required maxlength="50" placeholder="Enter your name" class="box">
@@ -235,6 +235,17 @@
               <textarea name="message" placeholder="Enter your message here..." required maxlength="1000" cols="30" rows="10" class="box"></textarea>
               <input type="submit" value="Send Message" name="send" class="btn">
             </form>
+            <!-- Display success or error messages -->
+            <?php
+            if (isset($_SESSION['message'])) {
+                echo "<p>{$_SESSION['message']}</p>";
+                unset($_SESSION['message']);
+            }
+            if (isset($_SESSION['error'])) {
+                echo "<p>{$_SESSION['error']}</p>";
+                unset($_SESSION['error']);
+            }
+            ?>
           </div>
         </div>
       </section>

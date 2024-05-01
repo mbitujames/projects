@@ -952,52 +952,52 @@ button, a { transition: var(--transition); }
 }
 /* CONTACT US SECTION */
 .contact .row {
-    display: flex;
-    
-  }
-  .contact .row form{
-    background-color: #8AA39B;
-    box-shadow: #C5D9E2;
-    padding: 0.5rem;
+  display: flex;
+  
+}
+.contact .row form{
+  background-color: #8AA39B;
+  box-shadow: #C5D9E2;
+  padding: 0.5rem;
 }
 .contact .row form h3{
-    padding-bottom: 0.5rem;
-    font-size: 2.5rem;
-    text-align: center;
-    text-transform: capitalize;
+  padding-bottom: 0.5rem;
+  font-size: 2.5rem;
+  text-align: center;
+  text-transform: capitalize;
 }
 .contact .row form .box{
-    width: 100%;
-    border: #9C9990;
-    padding: 0.4rem;
-    font-size: 0.8rem;
-    margin: 1rem 0;
+  width: 100%;
+  border: #9C9990;
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  margin: 1rem 0;
 }
 .contact .row form textarea{
-    height: 4rem;
-    resize: both;
+  height: 4rem;
+  resize: both;
 
 }
-  
-  .about-banner {
-    flex: 0 0 40%; /* Reduced image width to 40% */
-  }
-  
-  form {
-    flex: 1;
-    margin: 0 20px; /* Margin for spacing */
-  }
-  
-  .box { /* Target all input and textarea elements with class "box" */
-    width: 100%; /* Full width */
-    margin-bottom: 10px; /* Spacing between elements */
-  }
-  
-  .box:last-child { /* Remove margin from the last element (message) */
-    margin-bottom: 0;
-  }
-  
-  .btn { padding: 15px 40px; }
+
+.about-banner {
+  flex: 0 0 40%; /* Reduced image width to 40% */
+}
+
+form {
+  flex: 1;
+  margin: 0 20px; /* Margin for spacing */
+}
+
+.box { /* Target all input and textarea elements with class "box" */
+  width: 100%; /* Full width */
+  margin-bottom: 10px; /* Spacing between elements */
+}
+
+.box:last-child { /* Remove margin from the last element (message) */
+  margin-bottom: 0;
+}
+
+.btn { padding: 15px 40px; }
 
 /* CTA SECTION*/
 

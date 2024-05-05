@@ -13,6 +13,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO Users (full_name, email, role, password) VALUES ('$full_name', '$email', '$role', '$password')";
     if (mysqli_query($conn, $sql)) {
         echo "Sign up successful!";
+
+        // Insert activity into the Activities table
+        $action_description = "New user signed up: $full_name";
+        $current_date_time = date("Y-m-d H:i:s");
+        $insert_activity_query = "INSERT INTO Activities (activity_description, activity_date) VALUES ('$action_description', '$current_date_time')";
+        
+        if (mysqli_query($conn, $insert_activity_query)) {
+            echo "Activity logged successfully.";
+        } else {
+            echo "Error logging activity: " . mysqli_error($conn);
+        }
+
         // Redirect user to login page
         header("Location: login.php");
         exit();

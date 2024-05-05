@@ -12,6 +12,8 @@ CREATE TABLE Properties (
     bedrooms INT,
     bathrooms INT,
     square_ft INT,
+    keyword VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 -- users table with role column
@@ -21,6 +23,7 @@ CREATE TABLE Users (
     email VARCHAR(255) UNIQUE,
     role VARCHAR(10),
     password VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     avatar_url VARCHAR(255)
 );
 -- store table reviews 
@@ -29,7 +32,8 @@ CREATE TABLE Testimonials (
     user_name VARCHAR(255),
     user_image_url VARCHAR(255),
     rating DECIMAL(3, 2),
-    review TEXT
+    review TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE activities (

@@ -7,6 +7,9 @@ use PHPMailer\PHPMailer\Exception;
 // Include PHPMailer autoload
 require 'vendor/autoload.php';
 
+// Include database connection
+require_once './data/db.php';
+
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect form data
@@ -39,9 +42,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Send email
         $mail->send();
-        $_SESSION['message'] = "Thank you for your message. We will contact you shortly.";
+        
+        // Log the activity
+        $action_description = "User sent a message via contact form";
+        $current_date_time = date("Y-m-d H:i:s");
+        $insert_activity_query = "INSERT INTO activities (activity_description, activity_date) VALUES ('$action_description', '$current_date_time')";
+        
+        if (mysqli_query($conn, $insert_activity_query)) {
+            $_SESSION['message'] = "Thank you for your message. We will contact you shortly.";
+        } else {
+            $_SESSION['error'] = "Error logging activity: " . mysqli_error($conn);
+        }
         header("Location: index.php"); // Redirect back to the contact form page
-        exit;
+        exit;;
     } catch (Exception $e) {
         $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
         header("Location: index.php"); // Redirect back to the contact form page

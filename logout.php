@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+// Include database connection
+require_once './data/db.php';
+
 // Unset all of the session variables.
 $_SESSION = array();
 
@@ -17,6 +20,19 @@ if (ini_get("session.use_cookies")) {
 // Finally, destroy the session.
 session_destroy();
 
-// Redirect to the login page
-header('Location: login.php');
-exit;
+// Log the activity
+$action_description = "User logged out";
+$current_date_time = date("Y-m-d H:i:s");
+$insert_activity_query = "INSERT INTO activities (activity_description, activity_date) VALUES ('$action_description', '$current_date_time')";
+
+if (mysqli_query($conn, $insert_activity_query)) {
+    // Redirect to the login page
+    header('Location: login.php');
+    exit;
+} else {
+    // Error logging activity
+    $_SESSION['error'] = "Error logging activity: " . mysqli_error($conn);
+    header('Location: login.php');
+    exit;
+}
+?>

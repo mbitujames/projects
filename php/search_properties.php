@@ -1,62 +1,45 @@
 <?php
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    // Collect form data
+// Establishes a connection to the database
+require_once './data/db.php';
+
+// Check if the search parameters are provided
+if (isset($_GET['property_type']) && isset($_GET['location']) && isset($_GET['keyword'])) {
+    // Sanitize and store search parameters
     $propertyType = $_GET['property_type'];
     $location = $_GET['location'];
-    $keyword = $_GET['keyword'];
+    $keyword = '%' . $_GET['keyword'] . '%'; // Add wildcard characters for a partial match
 
-    // Database connection
-    require_once '../data/db.php';
+    // Construct the SQL query based on the search parameters
+    $sql = "SELECT * FROM Properties WHERE property_type = ? AND location = ? AND keyword LIKE ?";
+    $stmt = mysqli_prepare($conn, $sql);
 
-    // Construct the SQL query with placeholders
-    $query = "SELECT * FROM properties WHERE property_type = ?";
-    $params = array($propertyType);
+    // Bind parameters
+    mysqli_stmt_bind_param($stmt, "sss", $propertyType, $location, $keyword);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-    // Add conditions based on available input values
-    if (!empty($location)) {
-        $query .= " AND location LIKE ?";
-        $params[] = "%" . $conn->real_escape_string($location) . "%";
-    }
-    if (!empty($keyword)) {
-        $query .= " AND (title LIKE ? OR description LIKE ?)";
-        $keyword = "%" . $conn->real_escape_string($keyword) . "%";
-        $params[] = $keyword;
-        $params[] = $keyword;
-    }
-
-    // Prepare and bind parameters
-    $stmt = $conn->prepare($query);
-    if ($stmt) {
-        $types = str_repeat("s", count($params)); // All parameters are strings
-        $stmt->bind_param($types, ...$params);
-
-        // Execute the query
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        // Check if any rows were returned
-        if ($result->num_rows > 0) {
-            // Output data of each row
-            while ($row = $result->fetch_assoc()) {
-                // Output the retrieved data as needed
-                echo "Property Title: " . $row["title"] . "<br>";
-                echo "Location: " . $row["location"] . "<br>";
-                // Output other property details as needed
-                echo "<hr>";
-            }
-        } else {
-            echo "No properties found matching your search criteria.";
+    // Check if there are any results
+    if (mysqli_num_rows($result) > 0) {
+        // Loop through the results and display them
+        while ($row = mysqli_fetch_assoc($result)) {
+            // Output each property information
+            echo "<p>Title: " . $row['title'] . "</p>";
+            echo "<p>Description: " . $row['description'] . "</p>";
+            echo "<p>Bedrooms: " . $row['bedrooms'] . "</p>";
+            echo "<p>Bathrooms: " . $row['bathrooms'] . "</p>";
+            echo "<p>Square Feet: " . $row['square_ft'] . "</p>";
+            echo "<p>Price: $" . $row['price'] . "</p>";
+            // Output other property details as needed
         }
-
-        // Close statement
-        $stmt->close();
     } else {
-        // Handle query preparation error
-        echo "Error preparing statement: " . $conn->error;
+        echo "No properties found matching the search criteria.";
     }
 
-    // Close the database connection
-    $conn->close();
+    // Close the statement and database connection
+    mysqli_stmt_close($stmt);
+    mysqli_close($conn);
+} else {
+    // Handle case when search parameters are not provided
+    echo "Please provide search parameters.";
 }
 ?>

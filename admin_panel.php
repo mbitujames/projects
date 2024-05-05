@@ -20,13 +20,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $square_ft = $_POST['square_ft'];
     $property_type = $_POST['property_type'];
     $image_url = $_POST['image_url'];
+    $keyword = $_POST['keyword']; // Add keyword variable
 
     // Prepare and execute the SQL query to insert property data
-    $sql = "INSERT INTO properties (title, description, location, status, price, bedrooms, bathrooms, square_ft, property_type, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO properties (title, description, location, status, price, bedrooms, bathrooms, square_ft, property_type, image_url,keyword) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssiiiiis", $title, $description, $location, $status, $price, $bedrooms, $bathrooms, $square_ft, $property_type, $image_url);
+    mysqli_stmt_bind_param($stmt, "ssssiiiiiss", $title, $description, $location, $status, $price, $bedrooms, $bathrooms, $square_ft, $property_type, $image_url, $keyword);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
+
+    // Log the activity in the activities table
+    $action_description = "Admin added a new property: $title";
+    $current_date_time = date("Y-m-d H:i:s");
+    $insert_activity_query = "INSERT INTO activities (activity_description, activity_date) VALUES ('$action_description', '$current_date_time')";
+    
+    if (mysqli_query($conn, $insert_activity_query)) {
+        echo "Activity logged successfully.";
+    } else {
+        echo "Error logging activity: " . mysqli_error($conn);
+    }
 
     // Redirect to admin_panel.php after inserting the property
     header('Location: admin_panel.php');
@@ -41,8 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     <link rel="stylesheet" href="./assets/css/admin.css">
-    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
-    <!-- custom css link-->
     <link rel="stylesheet" href="./assets/css/style.css">
 
     <!-- google font link-->
@@ -51,7 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet">
-    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 
 </head>
 <body>
@@ -72,10 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
           <a href="./index.php" class="logo">
             <img src="./assets/images/logo1.jpg" alt="KREPM">
           </a>
-
-          <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
-            <ion-icon name="close-outline"></ion-icon>
-          </button>
         </div>
 
         <div class="navbar-bottom">
@@ -90,6 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
   </div>
 
 </header>
+
 
     <div class="container">
     <h2>Welcome, <?php echo $_SESSION['username']; ?>!</h2>
@@ -112,34 +118,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
       ?>
     </p>
     </div>
-  <section class="update-user">
-    <div class="card">
-    <h2>Update User</h2>
-    <form action="update_user.php" method="post">
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+    <section class="update-user">
+        <div class="card">
+            <h2>Update User</h2>
+            <form action="update_user.php" method="post">
+                <label for="user_id">User ID:</label>
+                <input type="text" id="user_id" name="user_id" required>
 
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
 
-      <!-- Include user_id as a hidden field -->
-      <input type="hidden" id="user_id" name="user_id" value="<?php echo $_POST['user_id']; ?>">
-      
-      <button type="submit" name="submit">Update User</button>
-    </form>
-    </div>
-  </section>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit" name="submit">Update User</button>
+            </form>
+        </div>
+    </section>
 
     <div class="card recent-activities">
       <h2>Recent Activities</h2>
       <ul>
         <?php
           // PHP code to retrieve recent activities from the database (same as before)
+          require_once './data/db.php';
           $query = "SELECT * FROM Activities ORDER BY activity_date DESC LIMIT 5";
           $result = mysqli_query($conn, $query);
+          //check if there are any results
           if (mysqli_num_rows($result) > 0) {
+            //loop through each row and display the activities
             while ($row = mysqli_fetch_assoc($result)) {
-              echo "<li>" . $row['activity'] . " - " . $row['activity_date'] . "</li>";
+              echo "<li>" . $row['activity_description'] . " - " . $row['activity_date'] . "</li>";
             }
           } else {
             echo "<li>No recent activities found.</li>";
@@ -184,6 +193,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
         <label for="image_url">Image URL:</label>
         <input type="url" id="image_url" name="image_url" required>
+
+        <label for="keyword">Keyword(s):</label>
+        <input type="text" id="keyword" name="keyword" required>
       
         <button type="submit" name="submit">Add Property</button>
     </form>
@@ -349,8 +361,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
   <!-- custom js link-->
   <script src="./assets/js/admin.js"></script>
-
-  <!-- ionicon link-->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </html>

@@ -12,6 +12,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row['password'])) {
+          // Log activity
+          $action_description = "User logged in: " . $row['full_name'];
+          $current_date_time = date("Y-m-d H:i:s");
+          $insert_query = "INSERT INTO activities (activity_description, activity_date) VALUES ('$action_description', '$current_date_time')";
+          $insert_result = mysqli_query($conn, $insert_query);
+          if (!$insert_result) {
+              echo "Error logging activity: " . mysqli_error($conn);
+          }
+          // set session variables
             $_SESSION['loggedin'] = true;
             $_SESSION['user_id'] = $row['user_id'];
             $_SESSION['username'] = $row['full_name'];

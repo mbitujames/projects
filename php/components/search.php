@@ -12,28 +12,30 @@
     </div>
 </section>
 <div id="search-results"></div>
+
+<!-- JavaScript code -->
+
 <script>
-    document.querySelector(".search-container .btn").addEventListener("click", function() {
-        searchProperties();
-    });
+    document.querySelector('.btn').addEventListener('click', function() {
+    var propertyType = document.getElementById('property-type').value;
+    var location = document.getElementById('location').value;
+    var keyword = document.getElementById('keyword').value;
 
-    function searchProperties() {
-        var propertyType = document.getElementById("property-type").value;
-        var location = document.getElementById("location").value;
-        var keyword = document.getElementById("keyword").value;
-
+    // Make sure all fields are filled
+    if (propertyType !== '' && location !== '' && keyword !== '') {
+        // Send AJAX request to the server-side script
         var xhr = new XMLHttpRequest();
-        var url = "search_properties.php?property_type=" + encodeURIComponent(propertyType) + "&location=" + encodeURIComponent(location) + "&keyword=" + encodeURIComponent(keyword);
-        xhr.open("GET", url, true);
+        xhr.open('GET', 'search_properties.php?property_type=' + propertyType + '&location=' + location + '&keyword=' + keyword, true);
         xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                    document.getElementById("search-results").innerHTML = xhr.responseText;
-                } else {
-                    console.error("Error: " + xhr.status);
-                }
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Display the search results in the search-results div
+                document.getElementById('search-results').innerHTML = xhr.responseText;
             }
         };
         xhr.send();
+    } else {
+        alert('Please fill in all fields.');
     }
+});
+
 </script>

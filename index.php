@@ -223,7 +223,7 @@
             <figure class="about-banner">
               <img src="./assets/images/contactus.png" alt="About us">
             </figure>
-            <form action="send_email.php" method="post">
+            <form id="contact-form" action="send_email.php" method="post">
               <h3>Contact us</h3>
               <label for="name">Name:</label>
               <input type="text" name="name" required maxlength="50" placeholder="Enter your name" class="box">
@@ -276,6 +276,10 @@
   <?php
   require('./php/components/footer.php');
   ?>
+
+  <!-- jquery link-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
   <!-- custom js link-->
   <script src="./assets/js/script.js"></script>
 

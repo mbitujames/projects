@@ -16,7 +16,7 @@
                 Where Every Door Opens to Possibilities.<br> Find Comfort, Style, and the Perfect Space that Feels Just Like Home.
             </p>
 
-            <button class="btn">
+            <button class="btn" id="hero-btn">
                 <a href="/signup.php">Get Started Now</a>
             </button>
         </div>

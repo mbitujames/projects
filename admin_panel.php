@@ -10,39 +10,55 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] === false) {
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    $location = $_POST['location'];
-    $status = $_POST['status'];
-    $price = $_POST['price'];
-    $bedrooms = $_POST['bedrooms'];
-    $bathrooms = $_POST['bathrooms'];
-    $square_ft = $_POST['square_ft'];
-    $property_type = $_POST['property_type'];
-    $image_url = $_POST['image_url'];
-    $keyword = $_POST['keyword']; // Add keyword variable
+  // Retrieve form data
+  $title = $_POST['title'];
+  $description = $_POST['description'];
+  $location = $_POST['location'];
+  $status = $_POST['status'];
+  $price = $_POST['price'];
+  $bedrooms = $_POST['bedrooms'];
+  $bathrooms = $_POST['bathrooms'];
+  $square_ft = $_POST['square_ft'];
+  $property_type = $_POST['property_type'];
+  $keyword = $_POST['keyword']; // Add keyword variable
 
-    // Prepare and execute the SQL query to insert property data
-    $sql = "INSERT INTO properties (title, description, location, status, price, bedrooms, bathrooms, square_ft, property_type, image_url,keyword) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssiiiiiss", $title, $description, $location, $status, $price, $bedrooms, $bathrooms, $square_ft, $property_type, $image_url, $keyword);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
+  // Handle file upload
+if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['image']['tmp_name'])) {
+  $uploadDir = './data/uploads/';
+  $filename = uniqid('img_') . '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+  if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . $filename)) {
+      // Construct the image URL
+      $image_url = $uploadDir . $filename;
 
-    // Log the activity in the activities table
-    $action_description = "Admin added a new property: $title";
-    $current_date_time = date("Y-m-d H:i:s");
-    $insert_activity_query = "INSERT INTO activities (activity_description, activity_date) VALUES ('$action_description', '$current_date_time')";
-    
-    if (mysqli_query($conn, $insert_activity_query)) {
-        echo "Activity logged successfully.";
-    } else {
-        echo "Error logging activity: " . mysqli_error($conn);
-    }
+      // Prepare and execute the SQL query to insert property data
+      $sql = "INSERT INTO properties (title, description, location, status, price, bedrooms, bathrooms, square_ft, property_type, image_url, keyword) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      $stmt = mysqli_prepare($conn, $sql);
+      mysqli_stmt_bind_param($stmt, "ssssiiiisss", $title, $description, $location, $status, $price, $bedrooms, $bathrooms, $square_ft, $property_type, $image_url, $keyword); // Removed one "s" from the bind_param
+      mysqli_stmt_execute($stmt);
+      mysqli_stmt_close($stmt);
 
-    // Redirect to admin_panel.php after inserting the property
-    header('Location: admin_panel.php');
-    exit;
+      // Log the activity in the activities table
+      $action_description = "Admin added a new property: $title";
+      $current_date_time = date("Y-m-d H:i:s");
+      $insert_activity_query = "INSERT INTO activities (activity_description, activity_date) VALUES ('$action_description', '$current_date_time')";
+      
+      if (mysqli_query($conn, $insert_activity_query)) {
+          echo "Activity logged successfully.";
+      } else {
+          echo "Error logging activity: " . mysqli_error($conn);
+      }
+
+      // Redirect to admin_panel.php after inserting the property
+      header('Location: admin_panel.php');
+      exit;
+  } else {
+      // Error moving file
+      echo "Error uploading image.";
+  }
+} else {
+  // No file uploaded or error occurred
+  echo "Please select an image file.";
+}
 }
 ?>
 
@@ -66,34 +82,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 <body>
 
   <header class="header" data-header>
-
   <div class="overlay" data-overlay></div>
-
-  <div class="header-bottom">
-    <div class="container">
-
-      <a href="./index.php" class="logo">
-        <img src="./assets/images/logo1.jpg" alt="KREPM">
-      </a>
-
-      <nav class="navbar" data-navbar>
-        <div class="navbar-top">
-          <a href="./index.php" class="logo">
-            <img src="./assets/images/logo1.jpg" alt="KREPM">
-          </a>
+    <div class="header-top">
+        <div class="container">
+        <h1 class="header-title">KREPM Admin Panel</h1>
         </div>
-
-        <div class="navbar-bottom">
-          <h2>Admin Panel</h2>
-        </div>
-        <button class="btn cta-btn">
-          <a href="./logout.php"><span>Logout</span></a>
-        </button>
-      </nav>
-
     </div>
-  </div>
+  <div class="header-bottom">
+  <div class="container">
 
+<a href="#home" class="logo">
+    <img src="./assets/images/logo1.jpg" alt="KREPM">
+</a>
+
+<nav class="navbar" data-navbar>
+    <div class="navbar-top">
+        <a href="#home" class="logo">
+            <img src="./assets/images/logo1.jpg" alt="KREPM">
+        </a>
+
+        <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+    </div>
+
+    <div class="navbar-bottom">
+        <ul class="navbar-list">
+            <li>
+                <a href="index.php" class="navbar-link" data-nav-link>Home</a>
+            </li>
+
+            <li>
+                <a href="admin_panel.php#update-user" class="navbar-link" data-nav-link>Update User</a>
+            </li>
+
+            <li>
+                <a href="admin_panel.php#card recent-activities" class="navbar-link" data-nav-link>Recent Activities</a>
+            </li>
+
+            <li>
+                <a href="admin_panel.php#card add-property" class="navbar-link" data-nav-link>Properties</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="header-bottom-actions">
+    <button class="btn cta-btn">
+        <a href="./logout.php"><span>Logout</span></a>
+      </button>
+
+    <button class="header-bottom-actions-btn" data-nav-open-btn aria-label="Open Menu">
+        <ion-icon name="menu-outline"></ion-icon>
+        <span>Menu</span>
+    </button>
+</div>
+</div>
+  </div>
 </header>
 
 
@@ -158,7 +203,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     </div>
     <div class="card add-property">
     <h2>Add Property</h2>
-    <form action="admin_panel.php" method="post">
+    <form action="admin_panel.php" method="post" enctype="multipart/form-data">
         <label for="title">Title:</label>
         <input type="text" id="title" name="title" required>
         
@@ -169,8 +214,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
         <label for="status">Status:</label>
         <select id="status" name="status" required>
-        <option value="buy">For Sale</option>
-        <option value="rent">For Rent</option>
+        <option value="For Sale ">For Sale</option>
+        <option value="For Rent">For Rent</option>
         </select>
 
         <label for="price">Price:</label>
@@ -191,8 +236,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         <option value="sale">Sale</option>
         </select>
 
-        <label for="image_url">Image URL:</label>
-        <input type="url" id="image_url" name="image_url" required>
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
 
         <label for="keyword">Keyword(s):</label>
         <input type="text" id="keyword" name="keyword" required>

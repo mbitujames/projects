@@ -37,3 +37,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+//js for update user information section
+document.getElementById('update-user-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const full_name = document.getElementById('full_name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const password = document.getElementById('password').value;
+
+    const url = './update_user.php'; // Replace with your script path
+
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({
+            full_name: full_name,
+            email: email,
+            phone: phone,
+            password: password
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('update-message').textContent = data.message;
+            document.getElementById('update-message').classList.add('success');
+        } else {
+            document.getElementById('update-message').textContent = data.error;
+            document.getElementById('update-message').classList.add('error');
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        document.getElementById('update-message').textContent = "An error occurred. Please try again.";
+        document.getElementById('update-message').classList.add('error');
+    });
+});

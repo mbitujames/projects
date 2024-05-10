@@ -225,10 +225,10 @@
             </figure>
             <form id="contact-form" action="send_email.php" method="post">
               <h3>Contact us</h3>
-              <label for="name">Name:</label>
-              <input type="text" name="name" required maxlength="50" placeholder="Enter your name" class="box">
+              <label for="name"> Name: </label>
+              <input type="text" name="name" required maxlength="50" placeholder="Enter your name" class="box" autocomplete="on">
               <label for="email">Email:</label>
-              <input type="email" name="email" required maxlength="50" placeholder="Enter your email" class="box">
+              <input type="email" name="email" required maxlength="50" placeholder="Enter your email" class="box" autocomplete="on">
               <label for="number">Phone Number:</label>
               <input type="number" name="number" required maxlength="10" min="0" max="999999999" placeholder="Enter your number" class="box">
               <label for="message">Message:</label>
@@ -279,13 +279,13 @@
 
   <!-- jquery link-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  
+
   <!-- custom js link-->
   <script src="./assets/js/script.js"></script>
 
   <!-- ionicon link-->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
 </body>
 

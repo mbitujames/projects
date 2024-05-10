@@ -1,16 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <?php
 // Include database connection file
 include_once './data/db.php';
 
 // Process signup form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
     $full_name = $_POST['full_name'];
+    $phone = $_POST['phone'];  
     $email = $_POST['email'];
     $role = $_POST['user_type'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
 
     // Insert user data into the database
-    $sql = "INSERT INTO Users (full_name, email, role, password) VALUES ('$full_name', '$email', '$role', '$password')";
+    $sql = "INSERT INTO Users (username,full_name,phone, email, role, password) VALUES ('$username','$full_name','$phone', '$email', '$role', '$password')";
     if (mysqli_query($conn, $sql)) {
         echo "Sign up successful!";
 
@@ -33,9 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -205,11 +207,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form action="" method="post" onsubmit="return validatePassword()">
             <h2>Create an account!</h2>
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" required maxlength="50" placeholder="Enter your username" class="box">
-            <label for="fname">Full name</label>
+            <input type="text" id="username" name="username" required maxlength="50" placeholder="Enter your username" class="box" autocomplete="on"> 
+            <label for="full_name">Full name</label>
             <input type="text" id="full_name" name="full_name" required maxlength="50" placeholder="Enter your full name" class="box">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required maxlength="10" placeholder="Enter your phone number" class="box">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" required maxlength="50" placeholder="Enter your email" class="box">
+            <input type="email" id="email" name="email" required maxlength="50" placeholder="Enter your email" class="box" autocomplete="on">
             <label for="user_type">User Type</label>
             <select name="user_type" id="user_type">
             <option value="admin">Admin</option>

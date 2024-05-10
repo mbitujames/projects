@@ -1,71 +1,59 @@
 <?php
+// Enable CORS
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
+
 session_start();
 require_once './data/db.php';
 
-echo "Script is executed.<br>";
-
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-    echo "Form is submitted.<br>";
-
-    // Retrieve form data
-    $user_id = $_POST['user_id'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    echo "User ID: $user_id<br>";
-    echo "Email: $email<br>";
-    echo "Password: $password<br>";
-
-    // Hash the password before updating
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    echo "Hashed Password: $hashedPassword<br>";
-
-    // Prepare and execute the SQL query to update user data in the db
-    $sql = "UPDATE users SET email = ?, password = ? WHERE user_id = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-
-    if ($stmt) {
-        echo "Statement prepared successfully.<br>";
-
-        mysqli_stmt_bind_param($stmt, "ssi", $email, $hashedPassword, $user_id);
-        mysqli_stmt_execute($stmt);
-
-        if (mysqli_stmt_affected_rows($stmt) > 0) {
-            echo "User information updated successfully!<br>";
-
-            // Log activity in the activity table
-            $action_description = "Admin updated user details";
-            $current_date_time = date("Y-m-d H:i:s");
-            $insert_activity_query = "INSERT INTO activities (activity_description, activity_date) VALUES (?, ?)";
-            $stmt_activity = mysqli_prepare($conn, $insert_activity_query);
-
-            if ($stmt_activity) {
-                mysqli_stmt_bind_param($stmt_activity, "ss", $action_description, $current_date_time);
-                mysqli_stmt_execute($stmt_activity);
-                mysqli_stmt_close($stmt_activity);
-
-                // Redirect back to the admin panel or wherever appropriate
-                mysqli_close($conn);
-                echo "Activity logged and user information updated successfully!<br>";
-                header('Location: admin_panel.php');
-                exit;
-            } else {
-                // Error preparing the statement to log activity
-                echo "Error preparing statement to log activity: " . mysqli_error($conn);
-            }
-        } else {
-            // Error updating user information
-            echo "Error updating user information: " . mysqli_error($conn);
-        }
-    } else {
-        // Error preparing the statement
-        echo "Error preparing statement: " . mysqli_error($conn);
-    }
-} else {
-    echo "Form is not submitted.<br>";
+// Check connection
+if (!$conn) {
+  die("Connection failed: " . mysqli_connect_error());
 }
 
-// Close the database connection
-mysqli_close($conn);
+$response = array('success' => false, 'error' => 'Missing required data.');
+
+// Check if required data is received (name and email)
+if (isset($_POST['full_name'], $_POST['email'])) {
+  $name = mysqli_real_escape_string($conn, $_POST['full_name']); // Sanitize name for security
+  $email = mysqli_real_escape_string($conn, $_POST['email']); // Sanitize email for security
+  $phone = isset($_POST['phone']) ? mysqli_real_escape_string($conn, $_POST['phone']) : null; // Sanitize phone (optional)
+
+  // Optional password update (handle empty password)
+  $password = "";
+  if (isset($_POST['password'])) {
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash password for security
+  }
+
+  // Build the SQL query for update
+  $sql = "UPDATE Users SET full_name='$full_name', email='$email'";
+  if ($phone) {
+    $sql .= ", phone='$phone'";
+  }
+  if ($password) {
+    $sql .= ", password='$password'";
+  }
+  $sql .= " WHERE email='$email'"; // Update user based on existing email
+
+  // Execute the update query
+  $result = mysqli_query($conn, $sql);
+
+  if ($result) {
+    if (mysqli_affected_rows($conn) > 0) {
+      $response = array('success' => true, 'message' => 'User information updated successfully.');
+    } else {
+      $response = array('success' => false, 'error' => 'No changes made to user information.');
+    }
+  } else {
+    $response = array('success' => false, 'error' => 'Error updating user information: ' . mysqli_error($conn));
+  }
+}
+
+// Close connection
+//mysqli_close($conn);
+
+// Encode response as JSON and send
+header('Content-Type: application/json');
+echo json_encode($response);
 ?>

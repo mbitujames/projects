@@ -211,7 +211,7 @@ a:hover {
             <form action="" method="post">
                 <h2>Welcome back!</h2>
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required maxlength="50" placeholder="Enter your email" class="box">
+                <input type="email" id="email" name="email" required maxlength="50" placeholder="Enter your email" class="box" autocomplete="on>
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required maxlength="50" placeholder="Enter your password" class="box">
                 <br>

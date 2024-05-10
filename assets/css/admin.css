@@ -1,25 +1,27 @@
 /* CSS styles */
 body {
+  padding: 0;
   font-family: Arial, sans-serif;
+  background-color: white;
+}
+main {
+  padding: 20px;
 }
 .container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding-inline: 15px;
   box-sizing: border-box;
 }
 table {
-  width: 100%;
+  width: 100%;/* Ensures table fills available space */
   border-collapse: collapse;
 }
 table, th, td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
-}
-th {
-  background-color: #f2f2f2;
 }
 .card-container {
   display: flex; /* Use flexbox to arrange cards horizontally */
@@ -28,7 +30,7 @@ th {
 }
 
 .card {
-  background-color: A8D0DB;
+  background-color:#f0f7ff;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -42,6 +44,40 @@ th {
   display: block;
   margin-bottom: 5px;
 }
+/* css for the dashboard division*/
+.dashboard {
+  background-color: #f2f6f7;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.dashboard h1 {
+  color: black;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.dashboard h2 {
+  color: #666;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.dashboard hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.dashboard p {
+  color: #555;
+  font-size: 16px;
+}
+/*end of dashboard div*/
+
 .recent-activities ul {
   list-style: none;
   padding: 0;
@@ -81,59 +117,267 @@ th {
 
 .card.add-property button {
   width: 50%; /* Adjust the width of the button */
-  padding: 10px;
-  background-color: #4CAF50;
+  padding: 12px 24px;
+  background-color: #fa5b3d;
   color: white;
   border: none;
   border-radius: 5px;
+  font-size: 18px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  align-items: center;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .card.add-property button:hover {
-  background-color: #45a049;
+  background:white;
+  color:#333;
+  border-color: black;
 }
 
 /*end of the adding property division*/
+/*code for the section display property*/
 .card.properties {
-  background-color: A8D0DB;
+  background-color: #f0f7ff;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
   margin-bottom: 20px;
   width: 100%; /* Adjust width as needed */
 }
-
 .table-image {
   width: 50px; /* Adjust image width as desired */
   height: auto; /* Maintain aspect ratio */
 }
+.properties {
+  background-color: #f0f7ff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  margin-bottom: 20px;
+  width: 100%; /* Adjust width as needed */
+}
+/* Table styles */
+.properties table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.properties table,.properties th,.properties td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+/* end of display user */
+
 /*code for the section update user*/
 .update-user {
   margin-top: 20px;
 }
+.form-group {
+  margin-bottom: 1rem;
+}
 
 .card input[type="text"],
-.card input[type="email"],
 .card input[type="password"] {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 15px;
+}
+.custom-input{
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.hint {
+  font-size: 12px;
+  color: gray;
+  margin-top: 5px;
+  display: block;
 }
 
-.card button {
-  background-color: #007bff;
-  color: #fff;
+button[type="submit"] {
+  background-color: #fa5b3d;
+  color: white;
+  padding: 12px 24px;
   border: none;
   border-radius: 5px;
-  padding: 10px 20px;
   cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+button[type="submit"]:hover {
+  background-color: white;
+  color: black;
+}
+
+#update-message {
+  margin-top: 1rem;
+  font-weight: bold;
+  color: green;
+}
+
+#update-message.error {
+  color: red;
+}
+.card button {
+  background-color:#fa5b3d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 24px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .card button:hover {
-  background-color: #0056b3;
+  background-color: white;
+  color: #333;
 }
 
+/* Media Queries */
+@media only screen and (max-width: 767px) {
+  /* css rules for mobile devices */
+ .container {
+    padding-inline: 10px;
+  }
+ .card {
+    padding: 15px;
+  }
+  table {
+    font-size: 12px; /* Reduce font size for smaller screens */
+  }
+ .dashboard {
+    padding: 15px;
+  }
+ .card.add-property input[type="text"],
+ .card.add-property input[type="number"],
+ .card.add-property input[type="url"],
+ .card.add-property select,
+ .card.add-property textarea {
+    width: calc(100% - 10px);
+  }
+ .card.add-property button {
+    width: 100%;
+  }
+  .properties {
+    padding: 15px;
+  }
 
+ .properties table {
+    width: 100%;
+  }
+
+ .properties th,.properties td {
+    padding: 8px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  /* css rules for tablet */
+ .container {
+    padding-inline: 15px;
+  }
+ .card {
+    padding: 20px;
+  }
+ .dashboard {
+    padding: 20px;
+  }
+ .card.add-property input[type="text"],
+ .card.add-property input[type="number"],
+ .card.add-property input[type="url"],
+ .card.add-property select,
+ .card.add-property textarea {
+    width: calc(100% - 20px);
+  }
+ .card.add-property button {
+    width: 100%;
+  }
+  .properties {
+    padding: 20px;
+  }
+
+ .properties table {
+    width: 100%;
+  }
+
+ .properties th,.properties td {
+    padding: 8px;
+  }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  /* css rules for laptops */
+ .container {
+    padding-inline: 15px;
+  }
+ .card {
+    padding: 20px;
+  }
+ .dashboard {
+    padding: 20px;
+  }
+ .card.add-property input[type="text"],
+ .card.add-property input[type="number"],
+ .card.add-property input[type="url"],
+ .card.add-property select,
+ .card.add-property textarea {
+    width: calc(100% - 20px);
+  }
+ .card.add-property button {
+    width: 50%;
+  }
+  .properties {
+    padding: 20px;
+  }
+
+ .properties table {
+    width: 100%;
+  }
+
+ .properties th,.properties td {
+    padding: 8px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  /* css rules for desktops */
+ .container {
+    padding-inline: 15px;
+  }
+ .card {
+    padding: 20px;
+  }
+ .dashboard {
+    padding: 20px;
+  }
+ .card.add-property input[type="text"],
+ .card.add-property input[type="number"],
+ .card.add-property input[type="url"],
+ .card.add-property select,
+ .card.add-property textarea {
+    width: calc(100% - 20px);
+  }
+ .card.add-property button {
+    width: 50%;
+  }
+  .properties {
+    padding: 20px;
+  }
+
+ .properties table {
+    width: 100%;
+  }
+
+ .properties th,.properties td {
+    padding: 8px;
+  }
+}

@@ -182,7 +182,7 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
       <section class="update-user">
           <div class="card">
               <h2>Update Users Information</h2>
-              <form id="update-user-form" method="post">
+              <form id="update-user-form" action="./php/update_user.php" method="post">
                 <div class="form-group">
                   <label for="full_name">Full Name:</label>
                   <input type="text" name="full_name" id="full_name" required>

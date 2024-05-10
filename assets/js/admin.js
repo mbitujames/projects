@@ -47,7 +47,7 @@ document.getElementById('update-user-form').addEventListener('submit', function(
     const phone = document.getElementById('phone').value;
     const password = document.getElementById('password').value;
 
-    const url = './update_user.php'; // Replace with your script path
+    const url = './php/update_user.php'; // Replace with your script path
 
     fetch(url, {
         method: 'POST',

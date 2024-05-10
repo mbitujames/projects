@@ -5,6 +5,8 @@
 // Include database connection file
 include_once './data/db.php';
 
+$signup_success_message = "";  // Initialize empty variable for success message
+
 // Process signup form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
@@ -17,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Insert user data into the database
     $sql = "INSERT INTO Users (username,full_name,phone, email, role, password) VALUES ('$username','$full_name','$phone', '$email', '$role', '$password')";
     if (mysqli_query($conn, $sql)) {
-        echo "Sign up successful!";
+      $signup_success_message = "Sign Up Successful!";  // update success message
 
         // Insert activity into the Activities table
         $action_description = "New user signed up: $full_name";
@@ -29,9 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "Error logging activity: " . mysqli_error($conn);
         }
-
-        // Redirect user to login page
-        header("Location: login.php");
+      
+        // Redirect user to login page after a short delay
+        header("Refresh: 3; url=login.php");
         exit();
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
@@ -70,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         max-width: 500px;
         margin: 0 auto;
         padding: 20px 0;
-        background-color: white;
+        background-color: #f0f7ff;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         box-sizing: border-box;
     }
@@ -94,8 +96,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         font-weight: bold;
         width: 100%;
         padding: 10px;
-        background-color: red;
-        border: none;
+        background-color: #fa5b3d;
+        border: black;
         border-radius: 5px;
         color: black;
         cursor: pointer;
@@ -103,9 +105,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     button:hover {
-        background: none;
+        background: white;
         color: black;
-        border-color: transparent;
+        border-color: black;
         text-align: center;
     }
     a {
@@ -204,6 +206,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!--sign up section-->
     <div class="signup-section">
     <section class="form-container">
+    <?php
+    if (!empty($signup_success_message)) : ?>
+    <p style='color: green;'><?php echo $signup_success_message; ?></p>
+    <?php endif; ?>
         <form action="" method="post" onsubmit="return validatePassword()">
             <h2>Create an account!</h2>
             <label for="username">Username</label>
@@ -211,7 +217,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="full_name">Full name</label>
             <input type="text" id="full_name" name="full_name" required maxlength="50" placeholder="Enter your full name" class="box">
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" required maxlength="10" placeholder="Enter your phone number" class="box">
+            <input type="tel" id="phone" name="phone" required maxlength="10" placeholder="Enter your phone number" class="box" autocomplete="on">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required maxlength="50" placeholder="Enter your email" class="box" autocomplete="on">
             <label for="user_type">User Type</label>

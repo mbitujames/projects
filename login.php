@@ -1,6 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <?php
 session_start();
 require_once './data/db.php';
+
+$errorMessage = ""; // Initialize empty variable for error message
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
@@ -27,22 +32,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['role'] = $row['role'];
 
             if ($row['role'] == 'admin') {
-                header("Location: admin_panel.php");
+              header("Location: admin_panel.php");
             } else {
-                header("Location: index.php");
+              header("Location: index.php");
             }
             exit();
         } else {
-            echo "Invalid password";
+          $errorMessage = "Invalid password";
         }
     } else {
-        echo "User not found";
+      $errorMessage = "User not found";
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -50,7 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <style>
-    
+    .error-message {
+      color: red;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
     body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
@@ -68,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
-  background-color: white;
+  background-color: #f0f7ff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 }
@@ -96,8 +102,8 @@ button[type="submit"] {
   font-weight: bold;
   width: 100%;
   padding: 10px;
-  background-color: red;
-  border: none;
+  background-color: #fa5b3d;
+  border: black;
   border-radius: 5px;
   color: black;
   cursor: pointer;
@@ -105,7 +111,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background: none;
+  background: white;
   color: black;
   border-color: transparent;
   text-align: center;
@@ -210,8 +216,13 @@ a:hover {
         <section class="form-container">
             <form action="" method="post">
                 <h2>Welcome back!</h2>
+                <?php if (!empty($errorMessage)) : ?>
+                <div class="error-message">
+                <?php echo $errorMessage; ?>
+                </div>
+                <?php endif; ?>
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required maxlength="50" placeholder="Enter your email" class="box" autocomplete="on>
+                <input type="email" id="email" name="email" required maxlength="50" placeholder="Enter your email" class="box" autocomplete="on">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required maxlength="50" placeholder="Enter your password" class="box">
                 <br>

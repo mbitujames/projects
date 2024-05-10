@@ -124,7 +124,7 @@ table, th, td {
   border-radius: 5px;
   font-size: 18px;
   cursor: pointer;
-  align-items: center;
+  text-align: center;
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -173,6 +173,7 @@ table, th, td {
 /*code for the section update user*/
 .update-user {
   margin-top: 20px;
+  height: 100vh;
 }
 .form-group {
   margin-bottom: 1rem;
@@ -203,12 +204,14 @@ table, th, td {
 }
 
 button[type="submit"] {
+  width: 50%; 
   background-color: #fa5b3d;
   color: white;
   padding: 12px 24px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  text-align: center;
   transition: background-color 0.3s, color 0.3s; 
 }
 
@@ -227,6 +230,7 @@ button[type="submit"]:hover {
   color: red;
 }
 .card button {
+  width: 50%; 
   background-color:#fa5b3d;
   color: white;
   border: none;
@@ -234,6 +238,7 @@ button[type="submit"]:hover {
   padding: 12px 24px;
   font-size: 18px;
   cursor: pointer;
+  text-align: center;
   transition: background-color 0.3s, color 0.3s;
 }
 

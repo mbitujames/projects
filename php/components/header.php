@@ -128,6 +128,7 @@
                     <div id="dropdown-content" class="dropdown-content">
                         <a href="login.php">Login</a>
                         <a href="signup.php">Signup</a>
+                        <a href="checkout.php"> checkout</a>
                     </div>
                 </div>
 

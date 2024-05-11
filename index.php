@@ -1,3 +1,4 @@
+//check if session exist then redirect to login page
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,6 +24,7 @@
       <?php include './php/components/hero.php'; ?>
       <!--SEARCH BAR-->
       <?php include './php/components/search.php'; ?>
+      <div id="search-results"></div>
       <!-- ABOUT US SECTION-->
       <?php include './php/components/about.php'; ?>
       <!-- #SERVICE-->

@@ -24,23 +24,84 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
 
     // Get result
-    $result = $stmt->get_result();
+    $featuredProperties = $stmt->get_result();
+    if (mysqli_num_rows($featuredProperties) > 0) {
+      echo '<ul class="property-list has-scrollbar">';
+      while ($row = mysqli_fetch_assoc($featuredProperties)) {
+          echo '<li>
+          <div class="property-card" data-property-type="' . $row['property_type'] . '">
+              <figure class="card-banner">
+                  <a href="#' . $row['property_type'] . '">
+                      <img src="' . $row['image_url'] . '" alt="' . $row['title'] . '" class="w-100">
+                  </a>
+                  <div class="card-badge green">' . $row['status'] . '</div>
+                  <div class="banner-actions">
+                      <button class="banner-actions-btn">
+                          <ion-icon name="location"></ion-icon>
+                          <address>' . $row['location'] . '</address>
+                      </button>
 
-    // Fetch and display results
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            // Display each property
-            echo "<div class='property'>";
-            echo "<h3>". $row['title']. "</h3>";
-            echo "<p>Location: ". $row['location']. "</p>";
-            echo "<p>Type: ". $row['property_type']. "</p>";
-            echo "<p>Description: ". $row['description']. "</p>";
-            echo "<p>bedrooms: ". $row['bedrooms']. "</p>";
-            echo "</div>";
-        }
-    } else {
-        echo "No properties found.";
-    }
+                      <button class="banner-actions-btn">
+                          <ion-icon name="camera"></ion-icon>
+                          <span>1</span>
+                      </button>
+                  </div>
+              </figure>
+
+              <div class="card-content">
+                  <div class="card-price">
+                      <strong>Ksh. ' . $row['price'] . '</strong>/Month
+                  </div>
+
+                  <h3 class="h3 card-title">
+                      <a href="#allproperty">' . $row['title'] . '</a>
+                  </h3>
+
+                  <p class="card-text">' . $row['description'] . '</p>
+
+                  <ul class="card-list">
+                      <li class="card-item">
+                          <strong>' . $row['bedrooms'] . '</strong>
+                          <ion-icon name="bed-outline"></ion-icon>
+                          <span>Bedrooms</span>
+                      </li>
+
+                      <li class="card-item">
+                          <strong>' . $row['bathrooms'] . '</strong>
+                          <ion-icon name="man-outline"></ion-icon>
+                          <span>Bathrooms</span>
+                      </li>
+
+                      <li class="card-item">
+                          <strong>' . $row['square_ft'] . '</strong>
+                          <ion-icon name="square-outline"></ion-icon>
+                          <span>Square Ft</span>
+                      </li>
+                  </ul>
+              </div>
+              <div class="card-footer">
+                  <div class="card-author">
+                      <figure class="author-avatar">
+                          <img src="./data/uploads/admin.jpg" alt="M J" class="w-100">
+                      </figure>
+                      <div>
+                          <p class="author-name">
+                              <a href="#">M J</a>
+                          </p>
+                          <p class="author-title">KREPM Agents</p>
+                      </div>
+                  </div>
+                  <div class="card-footer-actions">
+                      <button class="btn" id="add-to-cart">Reserve</button>
+                  </div>
+              </div>
+          </div>
+      </li>';
+      }
+      echo '</ul>';
+  } else {
+      echo "0 results";
+  }
 
     // Close statement and connection
     $stmt->close();
@@ -137,8 +198,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button class="btn" id="search-btn">Search Properties</button>
         </div>
     </form>
-    <div id="search-results"></div>
 </section>
+
 
 <script>
 $(document).ready(function() {

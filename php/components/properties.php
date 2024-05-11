@@ -5,7 +5,7 @@
         <?php
         require_once './data/db.php';
         // Fetch properties from the database
-        $sql = "SELECT * FROM properties WHERE featured = 1 ORDER BY property_id DESC LIMIT 6";
+        $sql = "SELECT * FROM properties WHERE featured = 1 AND availability = 1 ORDER BY property_id DESC LIMIT 6";
         $featuredProperties = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($featuredProperties) > 0) {
@@ -107,7 +107,7 @@
         <!--List of Properties -->
         <?php
         // require_once './data/db.php';
-        $sql = "SELECT * FROM properties ORDER BY property_id DESC LIMIT 6";
+        $sql = "SELECT * FROM properties WHERE availability= 1 ORDER BY  property_id DESC LIMIT 6";
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) > 0) {

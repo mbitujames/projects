@@ -1,4 +1,4 @@
-//check if session exist then redirect to login page
+<!--check if session exist then redirect to login page-->
 <!DOCTYPE html>
 <html lang="en">
 

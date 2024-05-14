@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <?php
 session_start();
 require_once './data/db.php';
@@ -62,8 +64,6 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -182,7 +182,14 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
       <section class="update-user">
           <div class="card">
               <h2>Update Users Information</h2>
-              <form id="update-user-form" action="./php/update_user.php" method="post">
+              <form id="update-user-form" action="update_user.php" method="post">
+                <!-- Admin should specify the user ID -->
+                <?php if (isset($_SESSION['admin'])): ?>
+                  <div class="form-group">
+                    <label for="user_id">User ID:</label>
+                    <input type="text" name="user_id" id="user_id" required>
+                  </div>
+                <?php endif; ?>
                 <div class="form-group">
                   <label for="full_name">Full Name:</label>
                   <input type="text" name="full_name" id="full_name" required>

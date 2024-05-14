@@ -55,7 +55,16 @@ CREATE TABLE Payments (
   FOREIGN KEY (property_id) REFERENCES Properties(property_id),
   FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
-
+CREATE TABLE IssuedProperties (
+    issue_id INT AUTO_INCREMENT PRIMARY KEY,
+    property_id INT NOT NULL,
+    user_id INT NOT NULL,
+    date_taken DATE NOT NULL,
+    agent_id INT NOT NULL,
+    FOREIGN KEY (property_id) REFERENCES Properties(property_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (agent_id) REFERENCES Users(user_id)
+);
 
 -- featured properties 
 

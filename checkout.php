@@ -2,7 +2,25 @@
 <html lang="en">
   <?php
   require_once './data/db.php';
+  // Retrieve property_id from the URL
+  
+  if (isset($_GET['property_id'])) {
+    $property_id = $_GET['property_id'];
+  
+    // Fetch property details from the database
+    $sql = "SELECT * FROM properties WHERE property_id = $property_id";
+    $result = mysqli_query($conn, $sql);
+  
+    if (mysqli_num_rows($result) > 0) {
+      $property = mysqli_fetch_assoc($result);
+  
+      // Access property details like $property['title'], $property['location'], $property['price']
+    } else {
+      echo "Invalid property ID";
+    }
+  }
   ?>
+
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

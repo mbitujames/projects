@@ -114,11 +114,6 @@
             </nav>
 
             <div class="header-bottom-actions">
-                <button class="header-bottom-actions-btn" aria-label="Cart">
-                    <ion-icon name="cart-outline"></ion-icon>
-                    <span>Cart</span>
-                </button>
-
                 <div class="dropdown">
                     <button class="header-bottom-actions-btn" aria-label="Profile" id="dropdown-btn">
                         <ion-icon name="person-outline"></ion-icon>
@@ -128,7 +123,7 @@
                     <div id="dropdown-content" class="dropdown-content">
                         <a href="login.php">Login</a>
                         <a href="signup.php">Signup</a>
-                        <a href="checkout.php"> checkout</a>
+                        <a href="./php/dashboard.php"> Dashboard</a>
                     </div>
                 </div>
 

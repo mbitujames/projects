@@ -96,11 +96,12 @@
                                 </div>
                             </div>
                             <div class="card-footer-actions">
-                                <button class="btn" id="add-to-cart"> Reserve </button>
+                            <button class="btn" id="reserve" onclick="redirectToCheckout()"> Reserve </button>
                             </div>
                         </div>
                     </div>
                 </li>';
+                    
                     }
                     echo '</ul>';
                 } else {
@@ -112,13 +113,18 @@
                 ?>
             </div>
 
-
         </article>
     </main>
     <!-- #FOOTER-->
     <?php
     require('./php/components/footer.php')
     ?>
+    <script>
+    function redirectToCheckout() {
+    window.location.href = "checkout.php";
+    }
+    </script>
+
     <!-- custom js link-->
     <script src="./assets/js/script.js"></script>
 

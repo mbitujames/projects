@@ -75,7 +75,7 @@
                             </div>
                         </div>
                         <div class="card-footer-actions">
-                            <button class="btn" id="add-to-cart">Reserve</button>
+                        <button class="btn" id="reserve" onclick="redirectToCheckout()"> Reserve </button>
                         </div>
                     </div>
                 </div>
@@ -177,7 +177,7 @@
                         </div>
                     </div>
                     <div class="card-footer-actions">
-                        <button class="btn" id="add-to-cart">Reserve</button>
+                    <button class="btn" id="reserve" onclick="redirectToCheckout()"> Reserve </button>
                     </div>
                 </div>
             </div>
@@ -195,3 +195,8 @@
 
     </div>
 </section>
+<script>
+function redirectToCheckout() {
+  window.location.href = "checkout.php";
+}
+</script>

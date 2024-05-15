@@ -103,17 +103,17 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
                   <li>
                       <a href="index.php" class="navbar-link" data-nav-link>Home</a>
                   </li>
-
                   <li>
-                      <a href="admin_panel.php#update-user" class="navbar-link" data-nav-link>Update User</a>
+                      <a href="update_user.php" class="navbar-link" data-nav-link>Update User</a>
                   </li>
-
                   <li>
-                      <a href="admin_panel.php#card recent-activities" class="navbar-link" data-nav-link>Recent Activities</a>
+                      <a href="#recent-activities" class="navbar-link" data-nav-link>Recent Activities</a>
                   </li>
-
                   <li>
-                      <a href="admin_panel.php#card add-property" class="navbar-link" data-nav-link>Properties</a>
+                      <a href="#add-property" class="navbar-link" data-nav-link>Add Properties</a>
+                  </li>
+                  <li>
+                      <a href="#properties" class="navbar-link" data-nav-link>Properties</a>
                   </li>
               </ul>
           </div>
@@ -306,6 +306,12 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
           </tbody>
         </table>
       </div>
+      <section id="reports" class="card">
+            <!-- Reports Section -->
+            <h2>Reports</h2>
+            <!-- Add functionality to print reports -->
+            <button onclick="window.print()">Print Reports</button>
+        </section>
     </div>
   </main>
   <!-- #FOOTER-->

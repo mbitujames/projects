@@ -96,7 +96,7 @@
                                 </div>
                             </div>
                             <div class="card-footer-actions">
-                            <button class="btn" id="reserve" onclick="redirectToCheckout()"> Reserve </button>
+                            <a href="checkout.php?property_id=' . $row['property_id'] . '" class="btn">Reserve</a>
                             </div>
                         </div>
                     </div>
@@ -119,11 +119,6 @@
     <?php
     require('./php/components/footer.php')
     ?>
-    <script>
-    function redirectToCheckout() {
-    window.location.href = "checkout.php";
-    }
-    </script>
 
     <!-- custom js link-->
     <script src="./assets/js/script.js"></script>

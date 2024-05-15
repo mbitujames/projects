@@ -50,11 +50,14 @@ CREATE TABLE Payments (
   property_id INT NOT NULL,
   user_id INT NOT NULL,
   payment_amount DECIMAL(10, 2) NOT NULL,
-  payment_method VARCHAR(50),  -- Optional: Specify payment method (e.g., 'credit card', 'bank transfer')
+  phone INT NOT NULL,  
+  payment_method VARCHAR(50),  
   payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  payment_status VARCHAR(50) NOT NULL DEFAULT 'pending', 
   FOREIGN KEY (property_id) REFERENCES Properties(property_id),
   FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
+
 CREATE TABLE IssuedProperties (
     issue_id INT AUTO_INCREMENT PRIMARY KEY,
     property_id INT NOT NULL,

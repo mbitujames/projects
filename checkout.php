@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+session_start();
 require_once './data/db.php';
+//include './php/process_payment.php';
 // Include M-PESA Daraja library (download from Safaricom developer portal)
-require_once('mpesa/safaricom_daraja.php');
+require_once('./php/safaricom_daraja.php');
 // Retrieve property_id from the URL
 if (isset($_GET['property_id'])) {
   $property_id = $_GET['property_id']; // Ensure it's an integer to prevent SQL injection
-
+  $_SESSION['property_id'] = $_GET['property_id'];
   // Fetch property details from the database
   $sql = "SELECT * FROM properties WHERE property_id = $property_id";
   $result = mysqli_query($conn, $sql);
@@ -149,7 +151,7 @@ if (isset($_GET['property_id'])) {
             <img src="./assets/images/logo1.jpg" alt="KREPM">
           </a>
           <h1> Make Payment</h1>
-        </div>
+        </div> 
       </nav>
     </div>
   </header>
@@ -163,17 +165,17 @@ if (isset($_GET['property_id'])) {
         <p><strong>Location:</strong> <?php echo $location; ?></p>
         <p><strong>Price:</strong> Ksh <?php echo $price; ?></p>
       </div>
-      <form id="payment-form" action="process_payment.php" method="post">
+      <form id="payment-form" action="./php/process_payment.php" method="post">
         <input type="hidden" name="property_id" value="<?php echo $property_id; ?>">
         <div class="form-group">
           <label for="phone">Phone Number:</label>
-          <input type="tel" id="phone" name="phone" placeholder="Enter phone number (e.g., 254712345678)" autocomplete="on">
+          <input type="tel" id="phone" name="MSISDN" placeholder="Enter phone number (e.g., 254712345678)" autocomplete="on">
         </div>
         <div class="form-group">
           <label for="payment_amount">Amount (Ksh):</label>
           <input type="number" id="payment_amount" name="payment_amount" min="1" placeholder="Enter amount to pay" required>
         </div>
-        <button type="submit" id="pay-btn">Pay with M-Pesa</button>
+        <button type="submit" name="pay-btn">Pay with M-Pesa</button>
       </form>
       <div id="message"></div>
     </div>

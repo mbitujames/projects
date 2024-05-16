@@ -65,3 +65,26 @@ document.getElementById('update-user-form').addEventListener('submit', function(
         document.getElementById('update-message').textContent = 'An error occurred while updating the user information.';
     });
 });
+//Add JavaScript for menu toggle 
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const navOpenBtn = document.querySelector('[data-nav-open-btn]');
+        const navCloseBtn = document.querySelector('[data-nav-close-btn]');
+        const navbar = document.querySelector('[data-navbar]');
+        const overlay = document.querySelector('[data-overlay]');
+
+        navOpenBtn.addEventListener('click', function () {
+            navbar.setAttribute('data-active', true);
+            overlay.classList.add('active');
+        });
+
+        navCloseBtn.addEventListener('click', function () {
+            navbar.removeAttribute('data-active');
+            overlay.classList.remove('active');
+        });
+
+        overlay.addEventListener('click', function () {
+            navbar.removeAttribute('data-active');
+            overlay.classList.remove('active');
+        });
+    });

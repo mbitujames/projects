@@ -883,7 +883,7 @@ button, a { transition: var(--transition); }
 }
 
 .box {
-  background-color: #ffffff;
+  background: var(--cultured-2);
   border-radius: 5px;
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -912,13 +912,17 @@ button, a { transition: var(--transition); }
   color: #f30000;
 }
 /* CONTACT US SECTION */
+.contact{
+  background: var(--cultured-2);
+  padding-block: var(--section-padding);
+}
 .contact .row {
   display: flex;
   
 }
 .contact .row form{
-  background-color: #8AA39B;
-  box-shadow: #C5D9E2;
+  background-color: #f0f7ff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 0.5rem;
 }
 .contact .row form h3{

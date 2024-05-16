@@ -3,7 +3,6 @@
 <?php
 session_start();
 require_once './data/db.php';
-//include './php/process_payment.php';
 // Include M-PESA Daraja library (download from Safaricom developer portal)
 require_once('./php/safaricom_daraja.php');
 // Retrieve property_id from the URL
@@ -21,6 +20,7 @@ if (isset($_GET['property_id'])) {
     $title = $property['title'];
     $location = $property['location'];
     $price = $property['price'];
+    $property_type = $property['property_type'];
   } else {
     echo "Invalid property ID or no property found";
     exit;
@@ -56,10 +56,10 @@ if (isset($_GET['property_id'])) {
 
     .payment-container {
       width: 90%;
+      padding-bottom: 20px;
       background-color: #f0f7ff;
       max-width: 1200px;
-      padding-top: 10px;
-      padding: 20px;
+      padding: 40px;
       border-radius: 4px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
@@ -72,11 +72,32 @@ if (isset($_GET['property_id'])) {
       box-sizing: border-box;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-
+    /* Header styles */
+    .logo {
+      height: 50px; /* Adjust height as needed based on your logo image */
+    }
+    .logo img {
+      height: 100%; /* Ensures image fills the logo container */
+    }
+    .header-container {
+      width: 100%;
+      background-color: whitesmoke;
+      max-width: 1200px;
+      padding-top: 10px;
+      padding: 25px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .checkout-title {
+      margin: 0; /* Remove default margin */
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: brown;
+      text-align: center;
+    }
     .property-details {
       margin-bottom: 25px;
     }
-
     .property-details h2 {
       text-align: center;
       margin-bottom: 10px;
@@ -140,28 +161,22 @@ if (isset($_GET['property_id'])) {
 
 <body>
   <!-- #HEADER-->
-  <header>
-    <div class="container">
-      <a href="./index.php" class="logo">
+  <header class="header">
+    <div class="header-container">
+      <a href="#" class="logo">
         <img src="./assets/images/logo1.jpg" alt="KREPM">
       </a>
-      <nav class="navbar" data-navbar>
-        <div class="navbar-top">
-          <a href="./index.php" class="logo">
-            <img src="./assets/images/logo1.jpg" alt="KREPM">
-          </a>
-          <h1> Make Payment</h1>
-        </div> 
-      </nav>
+      <h1 class="checkout-title">Checkout</h1>
     </div>
   </header>
 
-  <!--your code here-->
+  <!--form codes here-->
   <main>
     <div class="payment-container">
       <div class="property-details">
         <h2>Property Details</h2>
         <p><strong>Title:</strong> <?php echo $title; ?></p>
+        <p><strong>Property Type:</strong> <?php echo $property_type; ?></p>
         <p><strong>Location:</strong> <?php echo $location; ?></p>
         <p><strong>Price:</strong> Ksh <?php echo $price; ?></p>
       </div>

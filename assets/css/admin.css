@@ -248,6 +248,17 @@ button[type="submit"]:hover {
 }
 
 /* Media Queries */
+@media (max-width: 768px) {
+  .card {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-container {
+    flex-direction: column;
+  }
+}
 @media only screen and (max-width: 767px) {
   /* css rules for mobile devices */
  .container {
@@ -385,4 +396,61 @@ button[type="submit"]:hover {
  .properties th,.properties td {
     padding: 8px;
   }
+}
+/*admin header responsiveness*/
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-bottom {
+  display: none;
+}
+
+.header-bottom-actions-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .navbar-bottom {
+      display: none;
+      flex-direction: column;
+  }
+
+  .header-bottom-actions-btn {
+      display: block;
+  }
+
+  .navbar[data-navbar][data-active] .navbar-bottom {
+      display: flex;
+  }
+
+  .nav-close-btn {
+      display: block;
+  }
+
+  .navbar-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+}
+
+/* Style for the navigation menu in small screens */
+.navbar-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-list .navbar-link {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+}
+
+.navbar-list .navbar-link:hover {
+  background-color: #ddd;
 }

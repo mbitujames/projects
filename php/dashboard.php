@@ -46,7 +46,7 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #f2f6f7;
+    background-color: #fff2f0;
     padding-top: 20px;
     }
 
@@ -76,7 +76,7 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
     }
 
     .card {
-    background-color: #f0f0f0;
+    background-color:#f0f7ff;
     margin-bottom: 20px;
     padding: 20px;
     border-radius: 10px;
@@ -174,10 +174,10 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
         <ul>
             <li><a href="./index.php">Home</a></li>
             <li><a href="#profile">Profile</a></li>
-            <li><a href="./properties.php">Listed Properties</a></li> <!--./properties.php-->
+            <li><a href="../properties.php">Listed Properties</a></li> <!--./properties.php-->
             <li><a href="#settings">Settings</a></li>
             <li><a href="#reports">Reports</a></li>
-            <button><span> <a href="logout.php">Logout</a></span></button>
+            <button><span> <a href="../logout.php">Logout</a></span></button>
         </ul>
     </div>
     <div class="content">

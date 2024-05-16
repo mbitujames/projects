@@ -84,12 +84,12 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
     <div class="overlay" data-overlay></div>
     <div class="header-bottom">
       <div class="container">
-        <a href="#home" class="logo">
+        <a href="admin_panel.php" class="logo">
         <img src="./assets/images/logo1.jpg" alt="KREPM">
         </a>
         <nav class="navbar" data-navbar>
           <div class="navbar-top">
-              a href="#home" class="logo">
+              <a href="admin_panel.php" class="logo">
                 <img src="./assets/images/logo1.jpg" alt="KREPM">
               </a>
 
@@ -101,25 +101,25 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
           <div class="navbar-bottom">
               <ul class="navbar-list">
                   <li>
-                      <a href="index.php" class="navbar-link" data-nav-link>Home</a>
-                  </li>
-                  <li>
-                      <a href="update_user.php" class="navbar-link" data-nav-link>Update User</a>
+                      <a href="admin_panel.php#update-user" class="navbar-link" data-nav-link>Update User</a>
                   </li>
                   <li>
                       <a href="#recent-activities" class="navbar-link" data-nav-link>Recent Activities</a>
                   </li>
                   <li>
-                      <a href="#add-property" class="navbar-link" data-nav-link>Add Properties</a>
+                      <a href="admin_panel.php#add-property" class="navbar-link" data-nav-link>Add Properties</a>
                   </li>
                   <li>
-                      <a href="#properties" class="navbar-link" data-nav-link>Properties</a>
+                      <a href="admin_panel.php#properties" class="navbar-link" data-nav-link>Properties</a>
+                  </li>
+                  <li>
+                      <a href="admin_panel.php#reports" class="navbar-link" data-nav-link>Reports</a>
                   </li>
               </ul>
           </div>
         </nav>
         <div class="header-bottom-actions">
-          <button class="btn cta-btn">
+          <button class="btn">
             <a href="./logout.php"><span>Logout</span></a>
           </button>
 
@@ -140,7 +140,7 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
         <p>Manage your properties, users, and reports here.</p></br>
       </div>
 
-      <div class="card total-users">
+      <div class="card total-users" id="total-users">
         <h2>Total Users</h2>
         <p>
           <?php
@@ -158,7 +158,7 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
         </p>
       </div>
 
-      <div class="card recent-activities">
+      <div class="card recent-activities" id="recent-activities">
         <h2>Recent Activities</h2>
         <ul>
           <?php
@@ -179,7 +179,7 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
         </ul>
       </div>
       
-      <section class="update-user">
+      <section class="update-user" id="update-user">
           <div class="card">
               <h2>Update Users Information</h2>
               <form id="update-user-form" action="update_user.php" method="post">
@@ -215,7 +215,7 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
           </div>
       </section>
 
-      <div class="card add-property">
+      <div class="card add-property" id="add-property">
       <h2>Add Property</h2>
       <form action="admin_panel.php" method="post" enctype="multipart/form-data">
           <label for="title">Title:</label>
@@ -259,7 +259,7 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
           <button type="submit" name="submit">Add Property</button>
       </form>
       </div>
-      <div class="card properties">
+      <div class="card properties" id="properties">
         <h2>Properties</h2>
         <table>
           <thead>

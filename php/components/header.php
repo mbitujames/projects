@@ -84,11 +84,15 @@
                         </li>
 
                         <li>
+                            <a href="index.php#search-section" class="navbar-link" data-nav-link>Search</a>
+                        </li>
+
+                        <li>
                             <a href="index.php#about" class="navbar-link" data-nav-link>About</a>
                         </li>
 
                         <li>
-                            <a href="index.php#search-section" class="navbar-link" data-nav-link>Search</a>
+                            <a href="index.php#service" class="navbar-link" data-nav-link>Service</a>
                         </li>
 
                         <li>
@@ -96,10 +100,6 @@
                         </li>
                         <li>
                             <a href="./properties.php" class="navbar-link" data-nav-link>All Properties</a>
-                        </li>
-
-                        <li>
-                            <a href="index.php#service" class="navbar-link" data-nav-link>Service</a>
                         </li>
 
                         <li>

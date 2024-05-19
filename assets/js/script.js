@@ -70,3 +70,36 @@ window.onclick = function(event) {
   }
 }
 
+/*js for validating the contact us form*/
+function validateForm() {
+  var name = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
+  var number = document.getElementById("number").value;
+
+  // Validate Name
+  console.log("Validating name");
+  var namePattern = /^[a-zA-Z\s]+$/;
+  if (!namePattern.test(name)) {
+      alert('Full name can only contain letters and spaces.');
+      return false;
+  }
+
+  // Validate Email
+  console.log("Validating email");
+  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+      alert('Please enter a valid email address');
+      return false;
+  }
+
+  // Validate Phone Number
+  console.log("Validating phone number");
+  var numberPattern = /^[0-9]{10}$/;
+  if (!numberPattern.test(number)) {
+      alert('Phone number must be exactly 10 digits and contain only numbers.');
+       return false;
+    }
+  console.log("All validations passed");
+  // All validations passed
+  return true;
+}

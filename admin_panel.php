@@ -182,7 +182,7 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
       <section class="update-user" id="update-user">
           <div class="card">
               <h2>Update Users Information</h2>
-              <form id="update-user-form" action="update_user.php" method="post">
+              <form id="update-user-form" action="update_user.php" method="post" onsubmit="return validateUpdateUserForm()">
                 <!-- Admin should specify the user ID -->
                 <?php if (isset($_SESSION['admin'])): ?>
                   <div class="form-group">
@@ -421,6 +421,46 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
         </div>
       </div>
     </footer>
+    <script>
+      //js for validating the update user form
+      function validateUpdateUserForm() {
+      var fullName = document.getElementById("full_name").value;
+      var email = document.getElementById("email").value;
+      var phone = document.getElementById("phone").value;
+      var password = document.getElementById("password").value;
+
+      var namePattern = /^[a-zA-Z\s]+$/;
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      var phonePattern = /^[0-9]{10}$/;
+
+      // Validate Full Name
+      if (!namePattern.test(fullName)) {
+          alert('Full name can only contain letters and spaces.');
+          return false;
+      }
+
+      // Validate Email
+      if (!emailPattern.test(email)) {
+          alert('Please enter a valid email address.');
+          return false;
+      }
+
+      // Validate Phone Number
+      if (!phonePattern.test(phone)) {
+          alert('Phone number must be exactly 10 digits and contain only numbers.');
+          return false;
+      }
+
+      // Validate Password (if provided)
+      if (password !== "" && password.length < 8) {
+          alert('Password must be at least 8 characters long.');
+          return false;
+      }
+
+      // All validations passed
+      return true;
+    }
+    </script>
     <!-- custom js link-->
     <script src="./assets/js/admin.js"></script>
   

@@ -172,7 +172,7 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
     <div class="sidebar">
         <h2>User Dashboard</h2>
         <ul>
-            <li><a href="./index.php">Home</a></li>
+            <li><a href="../index.php">Home</a></li>
             <li><a href="#profile">Profile</a></li>
             <li><a href="../properties.php">Listed Properties</a></li> <!--./properties.php-->
             <li><a href="#settings">Settings</a></li>
@@ -212,7 +212,7 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
                     <?php unset($_SESSION['error_message']); ?>
                     <?php endif; ?>
             <!-- Form to update user details -->
-            <form action="update_dashboard.php" method="post">
+            <form action="update_dashboard.php" method="post" onsubmit="return validateSettingsForm()">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" value="<?php echo $user['email']; ?>" autocomplete="on"><br><br>
                 <label for="phone">Phone Number:</label>
@@ -230,5 +230,39 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
             <button onclick="window.print()">Print Reports</button>
         </section>
     </div>
+
+    <!--js for validating the settings form-->
+    <script>
+        function validateSettingsForm() {
+        var email = document.getElementById("email").value;
+        var phone = document.getElementById("phone").value;
+        var password = document.getElementById("password").value;
+
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        var phonePattern = /^[0-9]{10}$/;
+        var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        // Validate Email
+        if (!emailPattern.test(email)) {
+            alert('Please enter a valid email address.');
+            return false;
+        }
+
+        // Validate Phone Number
+        if (!phonePattern.test(phone)) {
+            alert('Phone number must be exactly 10 digits and contain only numbers.');
+            return false;
+        }
+
+        // Validate Password
+        if (!passwordPattern.test(password)) {
+            alert('Password must contain at least 8 characters, including uppercase, lowercase, a number, and a special character.');
+            return false;
+        }
+
+        // All validations passed
+        return true;
+    }
+    </script>
 </body>
 </html>

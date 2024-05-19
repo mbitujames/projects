@@ -65,26 +65,33 @@ document.getElementById('update-user-form').addEventListener('submit', function(
         document.getElementById('update-message').textContent = 'An error occurred while updating the user information.';
     });
 });
-//Add JavaScript for menu toggle 
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const navOpenBtn = document.querySelector('[data-nav-open-btn]');
-        const navCloseBtn = document.querySelector('[data-nav-close-btn]');
-        const navbar = document.querySelector('[data-navbar]');
-        const overlay = document.querySelector('[data-overlay]');
+//js for the navigation in the header
+document.addEventListener('DOMContentLoaded', function () {
+    const navOpenBtn = document.querySelector('[data-nav-open-btn]');
+    const navCloseBtn = document.querySelector('[data-nav-close-btn]');
+    const navbar = document.querySelector('[data-navbar]');
+    const overlay = document.querySelector('[data-overlay]');
 
+    if (navOpenBtn && navCloseBtn && navbar && overlay) {
         navOpenBtn.addEventListener('click', function () {
+            console.log('Opening menu'); // Debug statement
             navbar.setAttribute('data-active', true);
             overlay.classList.add('active');
         });
 
         navCloseBtn.addEventListener('click', function () {
+            console.log('Closing menu'); // Debug statement
             navbar.removeAttribute('data-active');
             overlay.classList.remove('active');
         });
 
         overlay.addEventListener('click', function () {
+            console.log('Overlay clicked'); // Debug statement
             navbar.removeAttribute('data-active');
             overlay.classList.remove('active');
         });
-    });
+    } else {
+        console.error('Navigation elements not found');
+    }
+});

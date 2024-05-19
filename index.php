@@ -225,14 +225,14 @@
             <figure class="about-banner">
               <img src="./assets/images/contactus.png" alt="About us">
             </figure>
-            <form id="contact-form" action="send_email.php" method="post">
+            <form id="contact-form" action="send_email.php" method="post" onsubmit="return validateForm()">
               <h3>Contact us</h3>
               <label for="name"> Name: </label>
               <input type="text" name="name" required maxlength="50" placeholder="Enter your name" class="box" autocomplete="on">
               <label for="email">Email:</label>
               <input type="email" name="email" required maxlength="50" placeholder="Enter your email" class="box" autocomplete="on">
               <label for="number">Phone Number:</label>
-              <input type="number" name="number" required maxlength="10" min="0" max="999999999" placeholder="Enter your number" class="box">
+              <input type="number" name="number" required maxlength="10" placeholder="Enter your number" class="box" autocomplete="on">
               <label for="message">Message:</label>
               <textarea name="message" placeholder="Enter your message here..." required maxlength="1000" cols="30" rows="10" class="box"></textarea>
               <input type="submit" value="Send Message" name="send" class="btn">

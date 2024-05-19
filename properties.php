@@ -26,7 +26,7 @@
                 <?php
                 require_once './data/db.php';
                 // Fetch properties from the database
-                $sql = "SELECT * FROM properties";
+                $sql = "SELECT * FROM properties WHERE availability = 1";
                 $featuredProperties = mysqli_query($conn, $sql);
 
                 if (mysqli_num_rows($featuredProperties) > 0) {

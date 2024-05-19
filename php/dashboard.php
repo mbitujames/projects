@@ -188,7 +188,6 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
         <section id="profile" class="card">
             <!-- Profile Section -->
             <h2>Profile</h2>
-            <img src="<?php echo $user['avatar_url']; ?>" alt="User Image">
             <p>Username: <?php echo $user['username']; ?></p>
             <p>Email: <?php echo $user['email']; ?></p>
         </section>

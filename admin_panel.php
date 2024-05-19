@@ -247,7 +247,7 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
           <label for="property_type">Type:</label>
           <select id="property_type" name="property_type" required>
           <option value="rent">Rent</option>
-          <option value="sale">Sale</option>
+          <option value="buy">Sale</option>
           </select>
 
           <label for="image">Image:</label>

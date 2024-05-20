@@ -46,6 +46,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if ($result) {
       $message = 'User information updated successfully!';
+      // Log activity
+      $action_description = "User updated their information";
+      $current_date_time = date("Y-m-d H:i:s");
+      $insert_activity_query = "INSERT INTO activities (user_id, activity_description, activity_date) VALUES ('$user_id', '$action_description', '$current_date_time')";
+      mysqli_query($conn, $insert_activity_query);
   } else {
       $message = 'Error updating user information: ' . mysqli_error($conn);
   }

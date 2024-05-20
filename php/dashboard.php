@@ -174,7 +174,7 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
         <ul>
             <li><a href="../index.php">Home</a></li>
             <li><a href="#profile">Profile</a></li>
-            <li><a href="../properties.php">Listed Properties</a></li> <!--./properties.php-->
+            <li><a href="../properties.php">Listed Properties</a></li> 
             <li><a href="#settings">Settings</a></li>
             <li><a href="#reports">Reports</a></li>
             <button><span> <a href="../logout.php">Logout</a></span></button>

@@ -26,6 +26,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get result
     $featuredProperties = $stmt->get_result();
     if (mysqli_num_rows($featuredProperties) > 0) {
+        // Insert search record into the search table
+        $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null; // Assuming you have a session for user authentication
+        $propertyId = $row['property_id'];
+        $insertSearchQuery = "INSERT INTO search (user_id, property_type, location, keyword, property_id) VALUES (?, ?, ?, ?, ?)";
+        $insertStmt = $conn->prepare($insertSearchQuery);
+        $insertStmt->bind_param("isssi", $userId, $propertyType, $location, $keyword, $propertyId);
+        $insertStmt->execute();
+        $insertStmt->close();
+
+        // Display search results
       echo '<ul class="property-list has-scrollbar">';
       while ($row = mysqli_fetch_assoc($featuredProperties)) {
           echo '<li>

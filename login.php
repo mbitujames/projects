@@ -17,10 +17,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row['password'])) {
+          // Update user's activity status to active
+          $user_id = $row['user_id'];
+          $update_sql = "UPDATE Users SET is_active = 1 WHERE user_id = $user_id";
+          mysqli_query($conn, $update_sql);
           // Log activity
           $action_description = "User logged in: " . $row['full_name'];
           $current_date_time = date("Y-m-d H:i:s");
-          $insert_query = "INSERT INTO activities (activity_description, activity_date) VALUES ('$action_description', '$current_date_time')";
+          $insert_query = "INSERT INTO activities (user_id, activity_description, activity_date) VALUES ($user_id, '$action_description', '$current_date_time')";
           $insert_result = mysqli_query($conn, $insert_query);
           if (!$insert_result) {
               echo "Error logging activity: " . mysqli_error($conn);

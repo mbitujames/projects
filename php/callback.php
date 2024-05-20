@@ -3,7 +3,7 @@ session_start();
 
 // echo '<a href="index.php">Home<br /></a>';
 
-require_once './data/db.php'; 
+require_once '../data/db.php'; 
 
 $payment_id = isset($_SESSION['payment_id']) ? $_SESSION['payment_id'] : '';
 

@@ -21,10 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_query($conn, $sql)) {
       $signup_success_message = "Sign Up Successful!";  // update success message
 
+      // Retrieve the user_id of the newly signed-up user
+      $user_id = mysqli_insert_id($conn);
+
         // Insert activity into the Activities table
         $action_description = "New user signed up: $full_name";
         $current_date_time = date("Y-m-d H:i:s");
-        $insert_activity_query = "INSERT INTO Activities (activity_description, activity_date) VALUES ('$action_description', '$current_date_time')";
+        $insert_activity_query = "INSERT INTO Activities (user_id, activity_description, activity_date) VALUES ('$user_id', '$action_description', '$current_date_time')";
         
         if (mysqli_query($conn, $insert_activity_query)) {
             echo "Activity logged successfully.";

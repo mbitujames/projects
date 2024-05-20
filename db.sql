@@ -26,6 +26,7 @@ CREATE TABLE Users (
     role VARCHAR(10),
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT 1,  -- New column
     avatar_url VARCHAR(255)
 );
 
@@ -41,8 +42,10 @@ CREATE TABLE Testimonials (
 
 CREATE TABLE activities (
     activity_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
     activity_description VARCHAR(255),
-    activity_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    activity_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE Payments (
@@ -68,6 +71,16 @@ CREATE TABLE IssuedProperties (
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (agent_id) REFERENCES Users(user_id)
 );
+CREATE TABLE search (
+    search_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    property_type VARCHAR(10),
+    location VARCHAR(255),
+    keyword VARCHAR(255),
+    search_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
 
 -- featured properties 
 

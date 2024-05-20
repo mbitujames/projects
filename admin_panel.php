@@ -42,7 +42,7 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
       // Log the activity in the activities table
       $action_description = "Admin added a new property: $title";
       $current_date_time = date("Y-m-d H:i:s");
-      $insert_activity_query = "INSERT INTO activities (activity_description, activity_date) VALUES ('$action_description', '$current_date_time')";
+      $insert_activity_query = "INSERT INTO activities (user_id, activity_description, activity_date) VALUES ('$user_id', '$action_description', '$current_date_time')";
       
       if (mysqli_query($conn, $insert_activity_query)) {
           echo "Activity logged successfully.";
@@ -71,6 +71,15 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
     
     <link rel="stylesheet" href="./assets/css/admin.css">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <style>
+      @media screen and (max-width: 768px) {
+        table {
+          overflow-x: auto;
+          display: block;
+          white-space: nowrap;
+        }
+      }
+    </style>
 
     <!-- google font link-->
     <link rel="preconnect" href="https://fonts.googleapis.com">

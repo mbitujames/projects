@@ -117,7 +117,7 @@ $config = array(
     "secret"           => "d0kofqc8IYQp4QQy5Be0vJlBFQv2wwYSrSTsmMtadwISIk3Ew74PUq3HkmbUHjVt",
     "TransactionType"  => "CustomerPayBillOnline",
     "passkey"          => "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",
-    "CallBackURL"      => "https://0cb7-102-68-78-246.ngrok-free.app/projects/php/callback.php", //When using localhost, Use Ngrok to forward the response to your Localhost
+    "CallBackURL"      => "https://753a-102-215-33-204.ngrok-free.app/projects/php/callback.php", //When using localhost, Use Ngrok to forward the response to your Localhost
     "AccountReference" => "KREPM LD",
     "TransactionDesc"  => "Property Payment - ID: $property_id",
 );
@@ -207,7 +207,5 @@ if (isset($_POST['pay-btn'])) {
         echo 'error message found';
     }
 }
-
-
 
 ?>

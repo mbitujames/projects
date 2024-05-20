@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result) {
         // Add activity to activities table
         $activity_description = "User with ID $user_id updated their information.";
-        $sql_activity = "INSERT INTO activities (activity_description) VALUES ('$activity_description')";
+        $sql_activity = "INSERT INTO activities (user_id, activity_description, activity_date) VALUES ('$user_id', '$activity_description', '$current_date_time')";
         mysqli_query($conn, $sql_activity);
         $_SESSION['success_message'] = 'User information updated successfully!';
     } else {

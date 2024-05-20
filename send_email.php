@@ -46,18 +46,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Log the activity
         $action_description = "User sent a message via contact form";
         $current_date_time = date("Y-m-d H:i:s");
-        $insert_activity_query = "INSERT INTO activities (activity_description, activity_date) VALUES ('$action_description', '$current_date_time')";
+        $insert_activity_query = "INSERT INTO activities (user_id, activity_description, activity_date) VALUES ('$user_id', '$action_description', '$current_date_time')";
         
         if (mysqli_query($conn, $insert_activity_query)) {
             $_SESSION['message'] = "Thank you for your message. We will contact you shortly.";
         } else {
             $_SESSION['error'] = "Error logging activity: " . mysqli_error($conn);
         }
-        header("Location: index.php"); // Redirect back to the contact form page
+        // Redirect user to login page after a short delay
+        header("Refresh: 3; url=index.php");
         exit;;
     } catch (Exception $e) {
         $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
-        header("Location: index.php"); // Redirect back to the contact form page
+        header("Refresh: 3; url=index.php"); // Redirect back to the contact form page
         exit;
     }
 }  

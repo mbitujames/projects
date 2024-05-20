@@ -57,7 +57,6 @@
             </div>
             </div>
         </div>
-    </div>
 
     <div class="header-bottom">
         <div class="container">
@@ -108,6 +107,9 @@
 
                         <li>
                             <a href="index.php#reviews" class="navbar-link" data-nav-link>Reviews</a>
+                        </li>
+                        <li>
+                            <a href="./php/reports.php" class="navbar-link" data-nav-link>Reports</a>
                         </li>
                     </ul>
                 </div>

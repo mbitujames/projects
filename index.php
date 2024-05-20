@@ -1,6 +1,9 @@
 <!--check if session exist then redirect to login page-->
 <!DOCTYPE html>
 <html lang="en">
+  <?php
+  session_start(); 
+  ?>
 
 <head>
   <meta charset="UTF-8">

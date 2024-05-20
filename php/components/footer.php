@@ -115,7 +115,7 @@
         <div class="container">
 
             <p class="copyright">
-                &copy; 2024 <a href="#">Kitale Real Estate & Property Management</a>. All Rights Reserved
+                &copy; 2024 <a href="#">Kitale Real Estate & Property Management By Mbitu</a>. All Rights Reserved
             </p>
 
         </div>

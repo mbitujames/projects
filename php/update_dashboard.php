@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT); 
 
     // Update user information query
-    $sql = "UPDATE Users SET email = '$email', phone = '$phone', password = '$hashed_password' WHERE user_id = $user_id";
+    $sql = "UPDATE users SET email = '$email', phone = '$phone', password = '$hashed_password' WHERE user_id = $user_id";
 
     $result = mysqli_query($conn, $sql);
 

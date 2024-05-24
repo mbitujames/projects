@@ -56,6 +56,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         .navbar-list .dropdown:hover > a {
             background-color: #ddd;
         }
+
         /* Responsive table */
         @media screen and (max-width: 768px) {
         table {
@@ -64,6 +65,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             white-space: nowrap;
         }
         }
+        
         </style>
         <!-- google font link-->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -142,6 +144,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                         <li><a href="#active-user-reports">Active User Reports</a></li>
                                         <li><a href="#user-search-report">User Search Report</a></li>
                                         <li><a href="#user-activities-report">User Activities Report</a></li>
+                                        <li><a href="#user-feedback-report">User Feedback Report</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown">
@@ -150,13 +153,14 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                         <li><a href="#property-inventory-report">Property Inventory Report</a></li>
                                         <li><a href="#property-views-report">Property Views Report</a></li>
                                         <li><a href="#property-reservation-reports">Property Reservation Reports</a></li>
+                                        <li><a href="#property-demand-report">Property Demand Reports</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown">
                                     <a href="#" class="navbar-link" data-nav-link>Payment Reports</a>
                                     <ul class="dropdown-content">
                                         <li><a href="#sales-performance-report">Sales Performance Report</a></li>
-                                        <li><a href="#payment-method-report">Payment Method Report</a></li>
+                                        <li><a href="#payment-status-report">Payment Status Report</a></li>
                                     </ul>
                                 </li>
 
@@ -315,6 +319,40 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     // Close the database connection
                     //$conn->close();
                     ?>
+                </div>
+                <div id="user-feedback-report">
+                    <?php
+                    // Define query to retrieve user feedback (order by rating DESC)
+                    $feedbackQuery = "SELECT * FROM Testimonials ORDER BY rating DESC"; // Order by rating descending
+
+                    // Execute query and store results
+                    $feedbackResult = mysqli_query($conn, $feedbackQuery);
+                    ?>
+                    <h4>User Feedback Report</h4>
+                    <table class="feedback-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Rating</th>
+                                <th>Review</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if (mysqli_num_rows($feedbackResult) > 0) {
+                                while ($row = mysqli_fetch_assoc($feedbackResult)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['username'] . "</td>";
+                                    echo "<td>" . number_format($row['rating'], 1) . " out of 5</td>";
+                                    echo "<td>" . $row['review'] . "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='3'>No user feedback available yet.</td></tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
             </section>
             <!-- Property Reports Section -->
@@ -748,25 +786,305 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                         <?php } ?>
                     </table>
                 </div>
+                <div id="property-demand-report">
+                    <?php
+                    require ('../data/db.php');
+                    function getPropertyDemandData($conn) {
+                        $sql = "SELECT 
+                        s.location,
+                        COUNT(s.search_id) AS search_count,
+                        COUNT(i.issue_id) AS issued_count,
+                        (COUNT(s.search_id) + COUNT(i.issue_id)) AS total_demand
+                        FROM 
+                        search s
+                        LEFT JOIN 
+                        issuedproperties i ON s.location = (SELECT location FROM properties WHERE property_id = i.property_id)
+                        GROUP BY 
+                        s.location
+                        ORDER BY 
+                        total_demand DESC
+                        LIMIT 5"; // To get the location with the most demand
+                        return $conn->query($sql);
+                    }
+                    $demandData = getPropertyDemandData($conn);
+                    ?>
+                    <h4>Property Demand Report</h4>
+                    <h4>Locations with the Most Demand</h4>
+                    <table class="report-table">
+                        <tr>
+                            <th>Location</th>
+                            <th>Search Count</th>
+                            <th>Issued Count</th>
+                            <th>Total Demand</th>
+                        </tr>
+                        <?php
+                        if ($demandData->num_rows > 0) {
+                            while($row = $demandData->fetch_assoc()) {
+                                echo '<tr>';
+                                echo '<td>' . htmlspecialchars($row['location']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['search_count']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['issued_count']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['total_demand']) . '</td>';
+                                echo '</tr>';
+                            }
+                        } else {
+                            echo '<tr><td colspan="4">No data found</td></tr>';
+                        }
+                        ?>
+                    </table>
+                </div>
             </section>
 
             <!-- Payment Reports Section -->
             <section id="payment-reports">
                 <h3>PAYMENTS REPORTS</h3>
+                <?php
+                require ('../data/db.php');
+                function getSalesData($conn, $interval) {
+                    $sql = "
+                    SELECT 
+                        i.issue_id, i.property_id, i.user_id, i.date_taken, i.agent_id,
+                        p.payment_amount, p.payment_date, p.payment_status,
+                        COUNT(p.payment_id) AS total_sales, 
+                        SUM(p.payment_amount) AS total_sales_amount,
+                        AVG(p.payment_amount) AS avg_sales_amount
+                    FROM 
+                        issuedproperties i
+                    LEFT JOIN 
+                        Payments p ON i.property_id = p.property_id AND i.user_id = p.user_id
+                    WHERE 
+                        p.payment_status ='successful' AND p.payment_date >= NOW() - INTERVAL 1 $interval
+                    GROUP BY 
+                        i.issue_id, p.payment_date
+                    ORDER BY 
+                        p.payment_date DESC";
+                    
+                    return $conn->query($sql);
+                }
+                
+                $weeklyData = getSalesData($conn, 'WEEK');
+                $monthlyData = getSalesData($conn, 'MONTH');
+                $yearlyData = getSalesData($conn, 'YEAR');
+                ?>
                 <div id="sales-performance-report">
                     <h4>Sales Performance Report</h4>
-                    <!-- Content for Sales Performance Report -->
+                     <!-- Weekly Report -->
+                     <h4>Weekly Report</h4>
+                     <table class="report-table">
+                        <tr>
+                            <th>Issue ID</th>
+                            <th>Property ID</th>
+                            <th>User ID</th>
+                            <th>Date Taken</th>
+                            <th>Agent ID</th>
+                            <th>Payment Amount</th>
+                            <th>Payment Date</th>
+                            <th>Payment Status</th>
+                        </tr>
+                        <?php
+                        $totalSales = $totalSalesAmount = $avgSalesAmount = 0;
+                        while($row = $weeklyData->fetch_assoc()) {
+                            echo '<tr>';
+                            echo '<td>' . htmlspecialchars($row['issue_id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['property_id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['user_id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['date_taken']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['agent_id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['payment_amount']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['payment_date']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['payment_status']) . '</td>';
+                            echo '</tr>';
+                            $totalSales++;
+                            $totalSalesAmount += $row['payment_amount'];
+                        }
+                        $avgSalesAmount = $totalSales ? $totalSalesAmount / $totalSales : 0;
+                        ?>
+                        <tr class="totals-row">
+                            <td colspan="5">Totals</td>
+                            <td><?php echo htmlspecialchars($totalSales); ?></td>
+                            <td><?php echo htmlspecialchars(number_format($totalSalesAmount, 2)); ?></td>
+                            <td><?php echo htmlspecialchars(number_format($avgSalesAmount, 2)); ?></td>
+                        </tr>
+                    </table>
+                    <!-- Monthly Report -->
+                    <h4>Monthly Report</h4>
+                    <table class="report-table">
+                        <tr>
+                            <th>Issue ID</th>
+                            <th>Property ID</th>
+                            <th>User ID</th>
+                            <th>Date Taken</th>
+                            <th>Agent ID</th>
+                            <th>Payment Amount</th>
+                            <th>Payment Date</th>
+                            <th>Payment Status</th>
+                        </tr>
+                        <?php
+                        $totalSales = $totalSalesAmount = $avgSalesAmount = 0;
+                        while($row = $monthlyData->fetch_assoc()) {
+                            echo '<tr>';
+                            echo '<td>' . htmlspecialchars($row['issue_id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['property_id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['user_id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['date_taken']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['agent_id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['payment_amount']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['payment_date']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['payment_status']) . '</td>';
+                            echo '</tr>';
+                            $totalSales++;
+                            $totalSalesAmount += $row['payment_amount'];
+                        }
+                        $avgSalesAmount = $totalSales ? $totalSalesAmount / $totalSales : 0;
+                        ?>
+                        <tr class="totals-row">
+                            <td colspan="5">Totals</td>
+                            <td><?php echo htmlspecialchars($totalSales); ?></td>
+                            <td><?php echo htmlspecialchars(number_format($totalSalesAmount, 2)); ?></td>
+                            <td><?php echo htmlspecialchars(number_format($avgSalesAmount, 2)); ?></td>
+                        </tr>
+                    </table>
+
+                    <!-- Yearly Report -->
+                    <h4>Yearly Report</h4>
+                    <table class="report-table">
+                        <tr>
+                            <th>Issue ID</th>
+                            <th>Property ID</th>
+                            <th>User ID</th>
+                            <th>Date Taken</th>
+                            <th>Agent ID</th>
+                            <th>Payment Amount</th>
+                            <th>Payment Date</th>
+                            <th>Payment Status</th>
+                        </tr>
+                        <?php
+                        $totalSales = $totalSalesAmount = $avgSalesAmount = 0;
+                        while($row = $yearlyData->fetch_assoc()) {
+                            echo '<tr>';
+                            echo '<td>' . htmlspecialchars($row['issue_id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['property_id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['user_id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['date_taken']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['agent_id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['payment_amount']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['payment_date']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['payment_status']) . '</td>';
+                            echo '</tr>';
+                            $totalSales++;
+                            $totalSalesAmount += $row['payment_amount'];
+                        }
+                        $avgSalesAmount = $totalSales ? $totalSalesAmount / $totalSales : 0;
+                        ?>
+                        <tr class="totals-row">
+                            <td colspan="5">Totals</td>
+                            <td><?php echo htmlspecialchars($totalSales); ?></td>
+                            <td><?php echo htmlspecialchars(number_format($totalSalesAmount, 2)); ?></td>
+                            <td><?php echo htmlspecialchars(number_format($avgSalesAmount, 2)); ?></td>
+                        </tr>
+                    </table>
                 </div>
-                <div id="payment-method-report">
-                    <h4>Payment Method Report</h4>
-                    <!-- Content for Payment Method Report -->
+                <div id="payment-status-report">
+                    <?php
+                    // Define queries for successful and pending payments
+                    $successfulPaymentsQuery = "SELECT * FROM Payments WHERE payment_status = 'successful' ORDER BY payment_date DESC";
+                    $pendingPaymentsQuery = "SELECT * FROM Payments WHERE payment_status = 'pending' ORDER BY payment_date DESC";
+                    // Execute queries and store results
+                    $successfulPaymentsResult = mysqli_query($conn, $successfulPaymentsQuery);
+                    $pendingPaymentsResult = mysqli_query($conn, $pendingPaymentsQuery);
+                    ?>
+                    <h4>Payment Status Report</h4>
+                    <h4>Successful Payments</h4>
+
+                    <table class="payment-table">
+                        <thead>
+                            <tr>
+                                <th>Payment ID</th>
+                                <th>Property ID</th>
+                                <th>User ID</th>
+                                <th>Payment Amount</th>
+                                <th>Payment Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if (mysqli_num_rows($successfulPaymentsResult) > 0) {
+                                while ($row = mysqli_fetch_assoc($successfulPaymentsResult)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['payment_id'] . "</td>";
+                                    echo "<td>" . $row['property_id'] . "</td>";
+                                    echo "<td>" . $row['user_id'] . "</td>";
+                                    echo "<td>" . $row['payment_amount'] . "</td>";
+                                    echo "<td>" . $row['payment_date'] . "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='5'>No successful payments found.</td></tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+
+                     <h4>Pending Payments</h4>
+                    <table class="payment-table">
+                        <thead>
+                            <tr>
+                                <th>Payment ID</th>
+                                <th>Property ID</th>
+                                <th>User ID</th>
+                                <th>Payment Amount</th>
+                                <th>Payment Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if (mysqli_num_rows($pendingPaymentsResult) > 0) {
+                                while ($row = mysqli_fetch_assoc($pendingPaymentsResult)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['payment_id'] . "</td>";
+                                    echo "<td>" . $row['property_id'] . "</td>";
+                                    echo "<td>" . $row['user_id'] . "</td>";
+                                    echo "<td>" . $row['payment_amount'] . "</td>";
+                                    echo "<td>" . $row['payment_date'] . "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='5'>No pending payments found.</td></tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+
                 </div>
             </section>
+            <div id="action-buttons" style="text-align: center; margin-top: 20px;">
+            <button onclick="downloadAsPDF()">Download as PDF</button>
+            <button onclick="printPage()">Print Page</button>
+        </div>
         </main>
         <!-- #FOOTER-->
         <?php
         require('../php/components/footer.php');
         ?>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script>
+        function downloadAsPDF() {
+            const { jsPDF } = window.jspdf;
+            html2canvas(document.body).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF();
+                const imgProps= pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save('report.pdf');
+            });
+        }
+        function printPage() {
+        window.print();
+        }
+        </script>
         <!-- custom js link-->
         <script src="../assets/js/script.js"></script>
         <!-- ionicon link-->

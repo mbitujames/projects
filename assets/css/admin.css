@@ -1,19 +1,4 @@
 /* CSS styles */
-body {
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: white;
-}
-main {
-  padding: 20px;
-}
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-inline: 15px;
-  box-sizing: border-box;
-}
 table {
   width: 100%;/* Ensures table fills available space */
   border-collapse: collapse;
@@ -44,49 +29,7 @@ table, th, td {
   display: block;
   margin-bottom: 5px;
 }
-/* css for the dashboard division*/
-.dashboard {
-  background-color: #f2f6f7;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
 
-.dashboard h1 {
-  color: black;
-  font-size: 24px;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.dashboard h2 {
-  color: #666;
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.dashboard hr {
-  border: none;
-  border-top: 1px solid #ccc;
-  margin-bottom: 20px;
-}
-
-.dashboard p {
-  color: #555;
-  font-size: 16px;
-}
-/*end of dashboard div*/
-
-.recent-activities ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.recent-activities li {
-  margin-bottom: 5px;
-}
 /*Css for the adding property division*/
 .card.add-property form {
   display: flex;
@@ -132,75 +75,6 @@ table, th, td {
   background:white;
   color:#333;
   border-color: black;
-}
-
-/*end of the adding property division*/
-/*code for the section display property*/
-.card.properties {
-  background-color: #f0f7ff;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
-  margin-bottom: 20px;
-  width: 100%; /* Adjust width as needed */
-}
-.table-image {
-  width: 50px; /* Adjust image width as desired */
-  height: auto; /* Maintain aspect ratio */
-}
-.properties {
-  background-color: #f0f7ff;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
-  margin-bottom: 20px;
-  width: 100%; /* Adjust width as needed */
-}
-/* Table styles */
-.properties table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.properties table,.properties th,.properties td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-/* end of display user */
-
-/*code for the section update user*/
-.update-user {
-  margin-top: 20px;
-  height: 100vh;
-}
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.card input[type="text"],
-.card input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 15px;
-}
-.custom-input{
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 15px;
-}
-.hint {
-  font-size: 12px;
-  color: gray;
-  margin-top: 5px;
-  display: block;
 }
 
 button[type="submit"] {
@@ -270,9 +144,7 @@ button[type="submit"]:hover {
   table {
     font-size: 12px; /* Reduce font size for smaller screens */
   }
- .dashboard {
-    padding: 15px;
-  }
+ 
  .card.add-property input[type="text"],
  .card.add-property input[type="number"],
  .card.add-property input[type="url"],
@@ -283,17 +155,7 @@ button[type="submit"]:hover {
  .card.add-property button {
     width: 100%;
   }
-  .properties {
-    padding: 15px;
-  }
 
- .properties table {
-    width: 100%;
-  }
-
- .properties th,.properties td {
-    padding: 8px;
-  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -303,10 +165,7 @@ button[type="submit"]:hover {
   }
  .card {
     padding: 20px;
-  }
- .dashboard {
-    padding: 20px;
-  }
+ }
  .card.add-property input[type="text"],
  .card.add-property input[type="number"],
  .card.add-property input[type="url"],
@@ -317,17 +176,7 @@ button[type="submit"]:hover {
  .card.add-property button {
     width: 100%;
   }
-  .properties {
-    padding: 20px;
-  }
 
- .properties table {
-    width: 100%;
-  }
-
- .properties th,.properties td {
-    padding: 8px;
-  }
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -338,9 +187,7 @@ button[type="submit"]:hover {
  .card {
     padding: 20px;
   }
- .dashboard {
-    padding: 20px;
-  }
+ 
  .card.add-property input[type="text"],
  .card.add-property input[type="number"],
  .card.add-property input[type="url"],

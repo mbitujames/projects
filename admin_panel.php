@@ -25,44 +25,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
   $keyword = $_POST['keyword']; // Add keyword variable
 
   // Handle file upload
-if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['image']['tmp_name'])) {
-  $uploadDir = './data/uploads/';
-  $filename = uniqid('img_') . '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-  if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . $filename)) {
-      // Construct the image URL
-      $image_url = $uploadDir . $filename;
+  if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['image']['tmp_name'])) {
+      $uploadDir = './data/uploads/';
+      $filename = uniqid('img_') . '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+      if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . $filename)) {
+          // Construct the image URL
+          $image_url = $uploadDir . $filename;
 
-      // Prepare and execute the SQL query to insert property data
-      $sql = "INSERT INTO properties (title, description, location, status, price, bedrooms, bathrooms, square_ft, property_type, image_url, keyword) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      $stmt = mysqli_prepare($conn, $sql);
-      mysqli_stmt_bind_param($stmt, "ssssiiiisss", $title, $description, $location, $status, $price, $bedrooms, $bathrooms, $square_ft, $property_type, $image_url, $keyword); // Removed one "s" from the bind_param
-      mysqli_stmt_execute($stmt);
-      mysqli_stmt_close($stmt);
+          // Prepare and execute the SQL query to insert property data
+          $sql = "INSERT INTO Properties (user_id, property_type, image_url, status, location, price, title, description, bedrooms, bathrooms, square_ft, keyword) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          $stmt = mysqli_prepare($conn, $sql);
+          // Assuming user_id is stored in the session
+          $user_id = $_SESSION['user_id'];
+          mysqli_stmt_bind_param($stmt, "issssdssiiss", $user_id, $property_type, $image_url, $status, $location, $price, $title, $description, $bedrooms, $bathrooms, $square_ft, $keyword);
+          mysqli_stmt_execute($stmt);
+          mysqli_stmt_close($stmt);
 
-      // Log the activity in the activities table
-      $action_description = "Admin added a new property: $title";
-      $current_date_time = date("Y-m-d H:i:s");
-      $insert_activity_query = "INSERT INTO activities (user_id, activity_description, activity_date) VALUES ('$user_id', '$action_description', '$current_date_time')";
-      
-      if (mysqli_query($conn, $insert_activity_query)) {
-          echo "Activity logged successfully.";
+          // Log the activity in the activities table
+          $action_description = "Admin added a new property: $title";
+          $current_date_time = date("Y-m-d H:i:s");
+          $insert_activity_query = "INSERT INTO activities (user_id, activity_description, activity_date) VALUES ('$user_id', '$action_description', '$current_date_time')";
+          if (mysqli_query($conn, $insert_activity_query)) {
+              echo "Activity logged successfully.";
+          } else {
+              echo "Error logging activity: " . mysqli_error($conn);
+          }
+
+          // Redirect to admin_panel.php after inserting the property
+          header('Location: admin_panel.php');
+          exit;
       } else {
-          echo "Error logging activity: " . mysqli_error($conn);
+          // Error moving file
+          echo "Error uploading image.";
       }
-
-      // Redirect to admin_panel.php after inserting the property
-      header('Location: admin_panel.php');
-      exit;
   } else {
-      // Error moving file
-      echo "Error uploading image.";
+      // No file uploaded or error occurred
+      echo "Please select an image file.";
   }
-} else {
-  // No file uploaded or error occurred
-  echo "Please select an image file.";
-}
 }
 ?>
+
 
 <head>
     <meta charset="UTF-8">
@@ -79,6 +82,157 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
           white-space: nowrap;
         }
       }
+      main {
+        padding: 20px;
+        font-family: 'Nunito Sans', sans-serif;
+      }
+      .navbar-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        }
+      /* General card styling */
+      section {
+        margin-bottom: 20px;
+        background-color: #f0f7ff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transition: box-shadow 0.3s ease;
+      }
+
+      section:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Header styling for sections */
+      section h3 {
+        margin-top: 0;
+        font-size: 1.5em;
+        color: brown;
+        border-bottom: 2px solid #f1f1f1;
+        padding-bottom: 10px;
+        text-align: center;
+      }
+
+      /* Sub-section card styling */
+      section div {
+        margin-bottom: 15px;
+        background-color: #f0f7ff;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        padding: 15px;
+        transition: box-shadow 0.3s ease;
+      }
+      section div:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Header styling for sub-sections */
+      section div h4 {
+        margin-top: 0;
+        font-size: 1.2em;
+        text-decoration:double;
+        color: black;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+      }
+
+      /* Additional styling to ensure padding and spacing */
+      section div p, section div ul {
+        margin: 0;
+        padding: 10px 0;
+      }
+      /* Table styling */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      thead {
+        background-color: #f2f2f2;
+      }
+      th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+      th {
+        font-weight: bold;
+      }
+      .table-image {
+        width: 50px; /* Adjust image width as desired */
+        height: auto; /* Maintain aspect ratio */
+      }
+
+      H2{
+        color:#fa5b3d;
+        padding:2px;
+        text-decoration:solid;
+        text-align:center;
+      }
+      /* Table heading styling */
+      h4 {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 18px;
+      }
+
+      /* Alternate row background color */
+      tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      /* Hover effect */
+      tbody tr:hover {
+        background-color: #f2f2f2;
+      }
+      .error,
+      .success {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .success {
+        color: green;
+      }
+      body {
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: white;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-inline: 15px;
+        box-sizing: border-box;
+      }
+      .actions {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+      }
+      .actions .action-icon {
+        color: white;
+        padding: 8px;
+        margin: 2px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .actions .edit { background-color: #f39c12; }
+      .actions .view { background-color: #3498db; }
+      .actions .delete { background-color: #e74c3c; }
+      .actions .edit:hover { background-color: #e67e22; }
+      .actions .view:hover { background-color: #2980b9; }
+      .actions .delete:hover { background-color: #c0392b; }
+      
+
     </style>
 
     <!-- google font link-->
@@ -91,142 +245,202 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
 <body>
   <header class="header" data-header>
     <div class="overlay" data-overlay></div>
+    <div class="header-top">
+      <div class="container">
+        <ul class="header-top-list">
+            <li>
+              <a href="krepmestates@gmail.com" class="header-top-link">
+                <ion-icon name="mail-outline"></ion-icon>
+                <span>krepmestates@gmail.com</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="header-top-link">
+                <ion-icon name="location-outline"></ion-icon>
+                <address>4th Floor, One Tana Towers, Kitale</address>
+              </a>
+            </li>
+        </ul>
+        <div class="wrapper">
+          <ul class="header-top-social-list">
+            <li> 
+              <a href="https://www.facebook.com/MbituJames" class="header-top-social-link" target="_blank">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="https://x.com/mbituke?t=mv9XXsRlVtVuec1vDPbUbQ&s=09" class="header-top-social-link" target="_blank">
+                <ion-icon name="logo-twitter"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/mbitu?igsh=MWs3bG53cHhwYWNpOA==" class="header-top-social-link" target="_blank">
+                <ion-icon name="logo-instagram"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="https://pin.it/2fseiKYde" class="header-top-social-link" target="_blank">
+                <ion-icon name="logo-pinterest"></ion-icon>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <div class="header-bottom">
       <div class="container">
-        <a href="admin_panel.php" class="logo">
-        <img src="./assets/images/logo1.jpg" alt="KREPM">
+        <a href="#home" class="logo">
+          <img src="./assets/images/logo1.jpg" alt="KREPM">
         </a>
         <nav class="navbar" data-navbar>
           <div class="navbar-top">
-              <a href="admin_panel.php" class="logo">
-                <img src="./assets/images/logo1.jpg" alt="KREPM">
-              </a>
-
-              <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
-                  <ion-icon name="close-outline"></ion-icon>
-              </button>
+            <a href="#home" class="logo">
+              <img src="./assets/images/logo1.jpg" alt="KREPM">
+            </a>
+            <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
+              <ion-icon name="close-outline"></ion-icon>
+            </button>
           </div>
 
           <div class="navbar-bottom">
-              <ul class="navbar-list">
-                  <li>
-                      <a href="admin_panel.php#update-user" class="navbar-link" data-nav-link>Update User</a>
-                  </li>
-                  <li>
-                      <a href="#recent-activities" class="navbar-link" data-nav-link>Recent Activities</a>
-                  </li>
-                  <li>
-                      <a href="admin_panel.php#add-property" class="navbar-link" data-nav-link>Add Properties</a>
-                  </li>
-                  <li>
-                      <a href="admin_panel.php#properties" class="navbar-link" data-nav-link>Properties</a>
-                  </li>
-                  <li>
-                      <a href="admin_panel.php#reports" class="navbar-link" data-nav-link>Reports</a>
-                  </li>
-              </ul>
+            <ul class="navbar-list">
+              <li>
+                <a href="../index.php" class="navbar-link" data-nav-link>Home</a>
+              </li>
+              <li>
+                <a href="../index.php" class="navbar-link" data-nav-link>Users</a>
+              </li>
+              <li>
+                <a href="../index.php" class="navbar-link" data-nav-link>Users Activities</a>
+              </li>
+              <li>
+                <a href="../index.php" class="navbar-link" data-nav-link>Properties</a>
+              </li>
+              <li>
+                <a href="../index.php" class="navbar-link" data-nav-link>Reports</a>
+              </li>
+            </ul>
           </div>
         </nav>
         <div class="header-bottom-actions">
-          <button class="btn">
-            <a href="./logout.php"><span>Logout</span></a>
-          </button>
-
+          <div class="dropdown">
+            <button class="btn">
+              <a href="./logout.php"><span>Logout</span></a>
+            </button>
+            <button class="header-bottom-actions-btn" aria-label="admin" id="admin-btn">
+              <ion-icon name="people-outline"></ion-icon>
+              <span>Admin</span>
+            </button>
+          </div>
           <button class="header-bottom-actions-btn" data-nav-open-btn aria-label="Open Menu">
             <ion-icon name="menu-outline"></ion-icon>
             <span>Menu</span>
           </button>
         </div>
-      </div>
     </div>
+  </div>
   </header>
   <main>
-    <div class="container">
-      <div class="dashboard">
-        <h1>KREPM ADMINISTRATION PANEL</h1>
-        <h2>Welcome, <?php echo $_SESSION['username']; ?>!</h2>
-        <hr>
+    <h2>KREPM ADMINISTRATION PANEL</h2>
+    <section id="dashboard">
+      <h3>Welcome, <?php echo $_SESSION['username']; ?>!</h3>
+      <hr>
         <p>Manage your properties, users, and reports here.</p></br>
-      </div>
+    </section>
 
-      <div class="card total-users" id="total-users">
-        <h2>Total Users</h2>
-        <p>
-          <?php
-            // PHP code to retrieve total users from the database (same as before)
-            require './data/db.php';
-            $query = "SELECT COUNT(user_id) AS total_users FROM Users";
-            $result = mysqli_query($conn, $query);
-            if (mysqli_num_rows($result) > 0) {
-              $row = mysqli_fetch_assoc($result);
-              echo "Total users: " . $row['total_users'];
-            } else {
-              echo "No users found.";
-            }
-          ?>
-        </p>
-      </div>
-
-      <div class="card recent-activities" id="recent-activities">
-        <h2>Recent Activities</h2>
-        <ul>
-          <?php
-            // PHP code to retrieve recent activities from the database (same as before)
-            require_once './data/db.php';
-            $query = "SELECT * FROM Activities ORDER BY activity_date DESC LIMIT 5";
-            $result = mysqli_query($conn, $query);
-            //check if there are any results
-            if (mysqli_num_rows($result) > 0) {
-              //loop through each row and display the activities
-              while ($row = mysqli_fetch_assoc($result)) {
-                echo "<li>" . $row['activity_description'] . " - " . $row['activity_date'] . "</li>";
-              }
-            } else {
-              echo "<li>No recent activities found.</li>";
-            }
-          ?>
-        </ul>
-      </div>
-      
-      <section class="update-user" id="update-user">
-          <div class="card">
-              <h2>Update Users Information</h2>
-              <form id="update-user-form" action="update_user.php" method="post" onsubmit="return validateUpdateUserForm()">
-                <!-- Admin should specify the user ID -->
-                <?php if (isset($_SESSION['admin'])): ?>
-                  <div class="form-group">
-                    <label for="user_id">User ID:</label>
-                    <input type="text" name="user_id" id="user_id" required>
-                  </div>
-                <?php endif; ?>
-                <div class="form-group">
-                  <label for="full_name">Full Name:</label>
-                  <input type="text" name="full_name" id="full_name" required>
-                </div>
-                <div class="form-group">
-                  <label for="email">Email:</label>
-                  <input type="email" name="email" id="email" class="custom-input" autocomplete="on">
-                </div>
-                <div class="form-group">
-                  <label for="phone">Phone Number:</label>
-                  <input type="tel" name="phone" id="phone" class="custom-input" placeholder="e.g. 0712345678" autocomplete="on">
-                </div>
-                <div class="form-group">
-                  <label for="password">Password:</label>
-                  <input type="password" name="password" id="password">
-                  <span class="hint">Leave empty to keep current password.</span>
-                </div>
-                <div class="form-group">
-                  <button type="submit">Update Information</button>
-                </div>
-                <div id="update-message"></div>
-              </form>
-          </div>
+      <section id="total-users">
+        <?php
+        require ('./data/db.php');
+        // Fetch total number of users
+        $sql_total_users = "SELECT COUNT(*) AS total_users FROM Users";
+        $result_total_users = $conn->query($sql_total_users);
+        $total_users = $result_total_users->fetch_assoc()['total_users'];
+        // Fetch all users
+        $sql_users = "SELECT * FROM Users";
+        $result_users = $conn->query($sql_users);
+        ?>
+        <h3>Total Users</h3>
+        <p>Total Users: <?php echo htmlspecialchars($total_users); ?></p>
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Username</th>
+              <th>Full Name</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Created At</th>
+              <th>Is Active</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php while ($user = $result_users->fetch_assoc()) { ?>
+              <tr>
+                <td><?php echo htmlspecialchars($user['user_id']); ?></td>
+                <td><?php echo htmlspecialchars($user['username']); ?></td>
+                <td><?php echo htmlspecialchars($user['full_name']); ?></td>
+                <td><?php echo htmlspecialchars($user['phone']); ?></td>
+                <td><?php echo htmlspecialchars($user['email']); ?></td>
+                <td><?php echo htmlspecialchars($user['role']); ?></td>
+                <td><?php echo htmlspecialchars($user['created_at']); ?></td>
+                <td><?php echo htmlspecialchars($user['is_active'] ? 'Yes' : 'No'); ?></td>
+                <td class="actions">
+                  <button class="action-icon edit" title="Edit" onclick="location.href='edit_user.php?id=<?php echo $user['user_id']; ?>'">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </button>
+                  <button class="action-icon view" title="View" onclick="location.href='view_user.php?id=<?php echo $user['user_id']; ?>'">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </button>
+                  <button class="action-icon delete" title="Delete" onclick="location.href='delete_user.php?id=<?php echo $user['user_id']; ?>'">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
       </section>
+
+      <section id="recent-activities">
+        <h3>Recent Activities</h3>
+        <?php
+        // Include your database connection file
+        include './data/db.php';
+        // Query to retrieve user activities
+        $sql = "
+        SELECT a.activity_id, u.username, a.activity_description, a.activity_date
+        FROM activities a
+        JOIN users u ON a.user_id = u.user_id
+        ORDER BY a.activity_date DESC
+        LIMIT 10";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+          echo '<table>';
+          echo '<tr><th>Activity ID</th><th>Username</th><th>Description</th><th>Date</th></tr>';
+          while ($row = $result->fetch_assoc()) {
+            echo '<tr>';
+            echo '<td>' . $row['activity_id'] . '</td>';
+            echo '<td>' . $row['username'] . '</td>';
+            echo '<td>' . $row['activity_description'] . '</td>';
+            echo '<td>' . $row['activity_date'] . '</td>';
+            echo '</tr>';
+          }
+          echo '</table>';
+        } else {
+          echo 'No activities found.';
+        }
+        ?>
+      </section>
+      <section id="add-properties">
 
       <div class="card add-property" id="add-property">
       <h2>Add Property</h2>
-      <form action="admin_panel.php" method="post" enctype="multipart/form-data">
+      <?php if (!empty($add_property_err)) { ?>
+        <p class="error"><?php echo $add_property_err; ?></p>
+        <?php } ?>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
           <label for="title">Title:</label>
           <input type="text" id="title" name="title" required>
           
@@ -266,11 +480,14 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
           <input type="text" id="keyword" name="keyword" required>
         
           <button type="submit" name="submit">Add Property</button>
-      </form>
+        </form>
       </div>
-      <div class="card properties" id="properties">
-        <h2>Properties</h2>
-        <table>
+      </section>
+      
+      <!--section for displaying all the properties-->
+      <section id="properties">
+        <h3>Properties</h3>
+        <table class="properties-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -283,6 +500,7 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
               <th>Square Ft</th>
               <th>Type</th>
               <th>Image</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -292,7 +510,7 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
             $result = mysqli_query($conn, $query);
             // Check if the query was successful
             if ($result === false) {
-              echo "<tr><td colspan='10'>Error fetching properties: " . mysqli_error($conn) . "</td></tr>";
+              echo "<tr><td colspan='11'>Error fetching properties: " . mysqli_error($conn) . "</td></tr>";
             } else {
               echo "Number of properties found: " . $result->num_rows . "<br>"; // Add this line
               // Fetch and display properties
@@ -308,21 +526,25 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
                 echo "<td>" . $row['square_ft'] . "</td>";
                 echo "<td>" . $row['property_type'] . "</td>";
                 echo "<td><img src='" . $row['image_url'] . "' alt='" . $row['title'] . "' class='table-image'></td>";
+                echo "<td class='actions'>
+                  <button class='action-icon edit' title='Edit' onclick=\"location.href='edit_property.php?id=" . $row['property_id'] . "'\">
+                    <ion-icon name='create-outline'></ion-icon>
+                  </button>
+                  <button class='action-icon view' title='View' onclick=\"location.href='view_property.php?id=" . $row['property_id'] . "'\">
+                    <ion-icon name='eye-outline'></ion-icon>
+                  </button>
+                  <button class='action-icon delete' title='Delete' onclick=\"location.href='delete_properties.php?id=" . $row['property_id'] . "'\">
+                    <ion-icon name='trash-outline'></ion-icon>
+                  </button>
+                </td>";
                 echo "</tr>";
               }
             }
             ?>
           </tbody>
         </table>
-      </div>
-      <section id="reports" class="card">
-            <!-- Reports Section -->
-            <h2>Reports</h2>
-            <!-- Add functionality to print reports -->
-            <button onclick="window.print()">Print Reports</button>
-        </section>
-    </div>
-  </main>
+      </section>      
+    </main>
   <!-- #FOOTER-->
   <footer class="footer">
       <div class="footer-top">
@@ -430,46 +652,7 @@ if ($_FILES['image']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['imag
         </div>
       </div>
     </footer>
-    <script>
-      //js for validating the update user form
-      function validateUpdateUserForm() {
-      var fullName = document.getElementById("full_name").value;
-      var email = document.getElementById("email").value;
-      var phone = document.getElementById("phone").value;
-      var password = document.getElementById("password").value;
-
-      var namePattern = /^[a-zA-Z\s]+$/;
-      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      var phonePattern = /^[0-9]{10}$/;
-
-      // Validate Full Name
-      if (!namePattern.test(fullName)) {
-          alert('Full name can only contain letters and spaces.');
-          return false;
-      }
-
-      // Validate Email
-      if (!emailPattern.test(email)) {
-          alert('Please enter a valid email address.');
-          return false;
-      }
-
-      // Validate Phone Number
-      if (!phonePattern.test(phone)) {
-          alert('Phone number must be exactly 10 digits and contain only numbers.');
-          return false;
-      }
-
-      // Validate Password (if provided)
-      if (password !== "" && password.length < 8) {
-          alert('Password must be at least 8 characters long.');
-          return false;
-      }
-
-      // All validations passed
-      return true;
-    }
-    </script>
+  
     <!-- custom js link-->
     <script src="./assets/js/admin.js"></script>
   

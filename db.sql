@@ -33,7 +33,7 @@ CREATE TABLE Users (
 -- store table reviews 
 CREATE TABLE Testimonials (
     testimonial_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_name VARCHAR(255),
+    username VARCHAR(255),
     user_image_url VARCHAR(255),
     rating DECIMAL(3, 2),
     review TEXT,

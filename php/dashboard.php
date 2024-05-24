@@ -176,7 +176,7 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
             <li><a href="#profile">Profile</a></li>
             <li><a href="../properties.php">Listed Properties</a></li> 
             <li><a href="#settings">Settings</a></li>
-            <li><a href="#reports">Reports</a></li>
+            <li><a href="./reports.php">Reports</a></li>
             <button><span> <a href="../logout.php">Logout</a></span></button>
         </ul>
     </div>
@@ -221,13 +221,6 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
                 <input type="password" id="password" name="password"><br><br>
                 <button type="submit" id="update">Update Information</button>
             </form>
-        </section>
-
-        <section id="reports" class="card">
-            <!-- Reports Section -->
-            <h2>Reports</h2>
-            <!-- Add functionality to print reports -->
-            <button onclick="window.print()">Print Reports</button>
         </section>
     </div>
 

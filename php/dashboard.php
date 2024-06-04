@@ -29,6 +29,7 @@ $resultTotal = mysqli_query($conn, $sqlTotal);
 $rent_count = mysqli_fetch_assoc($resultRent)['rent_count'];
 $sale_count = mysqli_fetch_assoc($resultSale)['sale_count'];
 $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
+
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +41,18 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
     <title>User Dashboard</title>
     <style>
     /* Sidebar Styles */
+    section {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+section:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
     .sidebar {
     height: 100%;
     width: 250px;
@@ -48,6 +61,11 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
     left: 0;
     background-color: #fff2f0;
     padding-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    }
+    .sidebar:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
     }
 
     .sidebar h2 {
@@ -97,7 +115,7 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
     }
     button{
     float: bottom;
-    width: 40%;
+    width: 80%;
     background-color:#fa5b3d;
     color: white;
     border: none;
@@ -113,7 +131,7 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
     color: #333;
     }
     .card button {
-    width: 20%;
+    width: 100%;
     background-color:#fa5b3d;
     color: white;
     border: none;
@@ -138,6 +156,20 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
     font-size: 14px;
     margin-bottom: 5px; 
     }
+    .form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
     /* Media Queries for Responsive Design */
     /* For screens smaller than 768px (tablets) */
     @media only screen and (max-width: 768px) {
@@ -175,7 +207,7 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
             <li><a href="../index.php">Home</a></li>
             <li><a href="#profile">Profile</a></li>
             <li><a href="../properties.php">Listed Properties</a></li> 
-            <li><a href="#settings">Settings</a></li>
+            <li><a href="#update-information">Update Information</a></li>
             <li><a href="./reports.php">Reports</a></li>
             <button><span> <a href="../logout.php">Logout</a></span></button>
         </ul>
@@ -200,9 +232,9 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
             <p>Total Properties: <?php echo $total_count; ?></p>
         </section>
 
-        <section id="settings" class="card">
+        <section id="update-information" class="card">
             <!-- Settings Section -->
-            <h2>Settings</h2>
+            <h2>Update Your Information</h2>
             <!-- Display success or error message -->
             <?php if (isset($_SESSION['success_message'])): ?>
                 <div class="success-message"><?php echo $_SESSION['success_message']; ?></div>
@@ -213,15 +245,51 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
                     <?php endif; ?>
             <!-- Form to update user details -->
             <form action="update_dashboard.php" method="post" onsubmit="return validateSettingsForm()">
+            <div class="form-group">
+                <label for="full_name">Full Name:</label>
+                <input type="text" id="full_name" name="full_name" value="<?php echo $user['full_name']; ?>" required><br><br>
+            </div>
+            <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" value="<?php echo $user['email']; ?>" autocomplete="on"><br><br>
+            </div>
+            <div class="form-group">
                 <label for="phone">Phone Number:</label>
                 <input type="text" id="phone" name="phone" value="<?php echo $user['phone']; ?>" autocomplete="on"><br><br>
+            </div>
+            <div class="form-group">
+                <label for="avatar_url">Profile Picture URL:</label>
+                <input type="url" id="avatar_url" name="avatar_url" value="<?php echo $user['avatar_url']; ?>"><br><br>
+            </div>
+            <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password"><br><br>
+            </div>
                 <button type="submit" id="update">Update Information</button>
             </form>
         </section>
+        <section id="reviews" class="card">
+        <h2>Write a Review</h2>
+        <form id="reviewForm" action="submit_review.php" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="username">Name:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="user_image">Upload Image:</label>
+                <input type="file" id="user_image" name="user_image">
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating:</label>
+                <input type="number" id="rating" name="rating" step="0.1" min="1" max="5" required>
+            </div>
+            <div class="form-group">
+                <label for="review">Review:</label>
+                <textarea id="review" name="review" rows="4" required></textarea>
+            </div>
+            <button type="submit">Submit Review</button>
+        </form>
+    </section>
     </div>
 
     <!--js for validating the settings form-->
@@ -256,6 +324,18 @@ $total_count = mysqli_fetch_assoc($resultTotal)['total_count'];
         // All validations passed
         return true;
     }
+    document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('reviewForm');
+
+    form.addEventListener('submit', function(event) {
+        const rating = parseFloat(document.getElementById('rating').value);
+        if (rating < 1 || rating > 5) {
+            alert('Rating must be between 1 and 5.');
+            event.preventDefault();
+        }
+    });
+    });
+
     </script>
 </body>
 </html>

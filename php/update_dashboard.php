@@ -25,14 +25,16 @@ $user_id = $_SESSION['user_id'];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
+    $full_name = $_POST['full_name'];
     $password = $_POST['password']; // Sanitize password before processing (see note)
+    $avatar_url = $_POST['avatar_url'];
 
     // **Sanitize password input (important!)** 
     // Use a password hashing function like password_hash() before storing in database
     $hashed_password = password_hash($password, PASSWORD_DEFAULT); 
 
     // Update user information query
-    $sql = "UPDATE users SET email = '$email', phone = '$phone', password = '$hashed_password' WHERE user_id = $user_id";
+    $sql = "UPDATE users SET email = '$email', full_name = '$full_name', phone = '$phone', avatar_url ='$avatar_url', password = '$hashed_password' WHERE user_id = $user_id";
 
     $result = mysqli_query($conn, $sql);
 

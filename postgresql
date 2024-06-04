@@ -1,0 +1,92 @@
+-- Users table
+CREATE TABLE Users (
+    user_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    full_name VARCHAR(50) UNIQUE,
+    phone VARCHAR(10) NOT NULL,
+    email VARCHAR(50) UNIQUE,
+    role VARCHAR(10),
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE,
+    avatar_url VARCHAR(255)
+);
+
+-- Properties table
+CREATE TABLE Properties (
+    property_id SERIAL PRIMARY KEY,
+    user_id INT,
+    property_type VARCHAR(10),
+    image_url VARCHAR(255),
+    status VARCHAR(20),
+    location VARCHAR(255),
+    price NUMERIC(10, 2),
+    title VARCHAR(255),
+    description TEXT,
+    bedrooms INT,
+    bathrooms INT,
+    square_ft INT,
+    keyword VARCHAR(255) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    featured BOOLEAN DEFAULT FALSE,
+    availability BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+-- Testimonials table
+CREATE TABLE Testimonials (
+    testimonial_id SERIAL PRIMARY KEY,
+    username VARCHAR(255),
+    user_image_url VARCHAR(255),
+    rating DECIMAL(3, 2),
+    review TEXT,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Activities table
+CREATE TABLE Activities (
+    activity_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES Users(user_id),
+    activity_description VARCHAR(255),
+    activity_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Payments table
+CREATE TABLE Payments (
+    payment_id SERIAL PRIMARY KEY,
+    property_id INT NOT NULL REFERENCES Properties(property_id),
+    user_id INT NOT NULL REFERENCES Users(user_id),
+    payment_amount DECIMAL(10, 2) NOT NULL,
+    phone VARCHAR(10) NOT NULL,  
+    payment_method VARCHAR(50),  
+    payment_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    payment_status VARCHAR(50) NOT NULL DEFAULT 'pending'
+);
+
+-- IssuedProperties table
+CREATE TABLE IssuedProperties (
+    issue_id SERIAL PRIMARY KEY,
+    property_id INT NOT NULL REFERENCES Properties(property_id),
+    user_id INT NOT NULL REFERENCES Users(user_id),
+    date_taken DATE NOT NULL,
+    agent_id INT NOT NULL REFERENCES Users(user_id)
+);
+
+-- Search table
+CREATE TABLE Search (
+    search_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES Users(user_id),
+    property_type VARCHAR(10),
+    location VARCHAR(255),
+    keyword VARCHAR(255),
+    search_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+-- Insert testimonials
+INSERT INTO Testimonials (username, user_image_url, rating, review) VALUES
+('Collins Tyler', './data/uploads/pic1.jpg', 4.5, E'I recently purchased a property through this website, and I\\''m extremely satisfied. The listings were detailed, and the agents were professional and helpful throughout the process. I would definitely use this platform again.'),
+('Serah Wangeci', './data/uploads/pic2.jpg', 4.0, E'This website is amazing! I found my dream house here, and the service was top-notch. The photos were accurate, and the descriptions were clear. Thank you for helping me find a great home!'),
+('Simon Tembu', './data/uploads/pic3.jpg', 4.0, E'I\\''ve had a great experience renting through this website. The search filters made it easy to find properties that matched my preferences, and the communication with the landlord was smooth and efficient. Definitely a trustworthy platform.'),
+('Mbue Peter', './data/uploads/pic4.png', 4.0, E'I found my dream apartment on this website, and it exceeded all my expectations. Highly recommended!'),
+('Tiffany Wainaina', './data/uploads/pic5.jpg', 4.0, E'I\\''ve been using this website for real estate investments, and it\\''s become my go-to platform. The market trends and analysis tools provided valuable insights, helping me make informed decisions. The user interface is intuitive, making it easy to navigate through different properties and neighborhoods. If you\\''re serious about real estate investing, this is the site to use.'),
+('Mickey Kendi', './data/uploads/pic6.jpg', 4.0, E'I listed my property for sale on this website, and I was impressed by the level of exposure it received. The analytics provided helped me track the interest in my listing, and the communication tools made it easy to connect with potential buyers. The property sold quickly, and I attribute much of that success to the visibility this website provided. Highly recommended for sellers!');
+

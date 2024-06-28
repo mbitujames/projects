@@ -72,8 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     
-    <link rel="stylesheet" href="./assets/css/admin.css">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/admin.css">
     <style>
       @media screen and (max-width: 768px) {
         table {
@@ -86,13 +86,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         padding: 20px;
         font-family: 'Nunito Sans', sans-serif;
       }
+      .navbar {
+        display: none;
+      }
+      .navbar.active {
+        display: block; /* Show the navbar when it has the 'active' class */
+      }
+
+      .overlay {
+        display: none; /* Initially hide the overlay */
+      }
+
+      .overlay.active {
+        display: block; /* Show the overlay when it has the 'active' class */
+      }
       .navbar-list {
         list-style: none;
         padding: 0;
         margin: 0;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        color: black;
         }
+
+      .navbar-link {
+        text-decoration: none;
+        color: #000;
+        padding: 10px 15px;
+        display: block;
+      }
+
+      .navbar-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .nav-close-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+      }
+
+      .header-bottom-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .header-bottom-actions-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+      }
       /* General card styling */
       section {
         margin-bottom: 20px;
@@ -134,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
       section div h4 {
         margin-top: 0;
         font-size: 1.2em;
-        text-decoration:double;
+        text-decoration: double;
         color: black;
         border-bottom: 1px solid #eee;
         padding-bottom: 5px;
@@ -167,7 +212,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         height: auto; /* Maintain aspect ratio */
       }
 
-      H2{
+      h2{
         color:#fa5b3d;
         padding:2px;
         text-decoration:solid;
@@ -189,8 +234,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
       tbody tr:hover {
         background-color: #f2f2f2;
       }
-      .error,
-      .success {
+      .error, .success {
         color: red;
         font-weight: bold;
         margin-bottom: 10px;
@@ -232,7 +276,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
       .actions .view:hover { background-color: #2980b9; }
       .actions .delete:hover { background-color: #c0392b; }
       
-
+      
     </style>
 
     <!-- google font link-->
@@ -308,16 +352,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 <a href="../index.php" class="navbar-link" data-nav-link>Home</a>
               </li>
               <li>
-                <a href="../index.php" class="navbar-link" data-nav-link>Users</a>
+                <a href="#" class="navbar-link" data-nav-link>Users</a>
               </li>
               <li>
-                <a href="../index.php" class="navbar-link" data-nav-link>Users Activities</a>
+                <a href="#" class="navbar-link" data-nav-link>Users Activities</a>
               </li>
               <li>
-                <a href="../index.php" class="navbar-link" data-nav-link>Properties</a>
+                <a href="./properties.php" class="navbar-link" data-nav-link>Properties</a>
               </li>
               <li>
-                <a href="../index.php" class="navbar-link" data-nav-link>Reports</a>
+                <a href="./reports.php" class="navbar-link" data-nav-link>Reports</a>
               </li>
             </ul>
           </div>
@@ -434,54 +478,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         ?>
       </section>
       <section id="add-properties">
+        <div class="card add-property" id="add-property">
+        <h2>Add Property</h2>
+        <?php if (!empty($add_property_err)) { ?>
+          <p class="error"><?php echo $add_property_err; ?></p>
+          <?php } ?>
+          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
 
-      <div class="card add-property" id="add-property">
-      <h2>Add Property</h2>
-      <?php if (!empty($add_property_err)) { ?>
-        <p class="error"><?php echo $add_property_err; ?></p>
-        <?php } ?>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
-          <label for="title">Title:</label>
-          <input type="text" id="title" name="title" required>
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+            <option value="For Sale ">For Sale</option>
+            <option value="For Rent">For Rent</option>
+            </select>
+
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" required>
+
+            <label for="bedrooms">Bedrooms:</label>
+            <input type="number" id="bedrooms" name="bedrooms" required>
+
+            <label for="bathrooms">Bathrooms:</label>
+            <input type="number" id="bathrooms" name="bathrooms" required>
+
+            <label for="square_ft">Square Ft:</label>
+            <input type="number" id="square_ft" name="square_ft" required>
+
+            <label for="property_type">Type:</label>
+            <select id="property_type" name="property_type" required>
+            <option value="rent">Rent</option>
+            <option value="buy">Sale</option>
+            </select>
+
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+
+            <label for="keyword">Keyword(s):</label>
+            <input type="text" id="keyword" name="keyword" required>
           
-          <label for="description">Description:</label>
-          <textarea id="description" name="description" required></textarea>
-          <label for="location">Location:</label>
-          <input type="text" id="location" name="location" required>
-
-          <label for="status">Status:</label>
-          <select id="status" name="status" required>
-          <option value="For Sale ">For Sale</option>
-          <option value="For Rent">For Rent</option>
-          </select>
-
-          <label for="price">Price:</label>
-          <input type="number" id="price" name="price" required>
-
-          <label for="bedrooms">Bedrooms:</label>
-          <input type="number" id="bedrooms" name="bedrooms" required>
-
-          <label for="bathrooms">Bathrooms:</label>
-          <input type="number" id="bathrooms" name="bathrooms" required>
-
-          <label for="square_ft">Square Ft:</label>
-          <input type="number" id="square_ft" name="square_ft" required>
-
-          <label for="property_type">Type:</label>
-          <select id="property_type" name="property_type" required>
-          <option value="rent">Rent</option>
-          <option value="buy">Sale</option>
-          </select>
-
-          <label for="image">Image:</label>
-          <input type="file" id="image" name="image" accept="image/*" required>
-
-          <label for="keyword">Keyword(s):</label>
-          <input type="text" id="keyword" name="keyword" required>
-        
-          <button type="submit" name="submit">Add Property</button>
-        </form>
-      </div>
+            <button type="submit" name="submit">Add Property</button>
+          </form>
+        </div>
       </section>
       
       <!--section for displaying all the properties-->
@@ -654,6 +697,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     </footer>
   
     <!-- custom js link-->
+    <script>
+    // JavaScript for handling the navigation menu
+    document.addEventListener('DOMContentLoaded', function() {
+      const navOpenBtn = document.querySelector('[data-nav-open-btn]');
+      const navCloseBtn = document.querySelector('[data-nav-close-btn]');
+      const navbar = document.querySelector('[data-navbar]');
+      const overlay = document.querySelector('[data-overlay]');
+
+      navOpenBtn.addEventListener('click', function() {
+        navbar.classList.add('active');
+        overlay.classList.add('active');
+      });
+
+      navCloseBtn.addEventListener('click', function() {
+        navbar.classList.remove('active');
+        overlay.classList.remove('active');
+      });
+
+      overlay.addEventListener('click', function() {
+        navbar.classList.remove('active');
+        overlay.classList.remove('active');
+      });
+    });
+  </script>
     <script src="./assets/js/admin.js"></script>
   
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

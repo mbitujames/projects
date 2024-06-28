@@ -102,7 +102,7 @@
                     </li>
 
                     <li>
-                        <a href="./php/dashboard.php" class="footer-link">My account</a>
+                        <a href="./dashboard.php" class="footer-link">My account</a>
                     </li>
                 </ul>
 

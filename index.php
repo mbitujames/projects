@@ -108,118 +108,63 @@
         </div>
       </section>
 
+      <?php
+      // Database connection
+      require ('./data/db.php');
+      // Fetch reviews from the database
+      $sql = "SELECT username, user_image_url, rating, review FROM Testimonials ORDER BY rating DESC LIMIT 6";
+      $result = $conn->query($sql);
+      ?>
+
       <!-- #REVIEWS-->
       <section class="reviews" id="reviews">
-        <div class="container">
-          <p class="section-subtitle">Reviews</p>
-          <h2 class="h2 section-title">Latest Client's Reviews</h2>
-          <div class="box-container">
-            <div class="box">
-              <div class="user">
-                <img src="./data/uploads/pic1.jpg" alt="pic1">
-                <div>
-                  <h3>Collins Tyler </h3>
-                  <div class="stars">
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-half-outline"></ion-icon>
-                  </div>
-                </div>
-              </div>
-              <p>I recently purchased a property through this website, and I'm extremely satisfied. The listings were detailed, and the agents were professional and helpful throughout the process. I would definitely use this platform again.
-              </p>
-            </div>
-            <div class="box">
-              <div class="user">
-                <img src="./data/uploads/pic2.jpg" alt="pic2">
-                <div>
-                  <h3>Serah Wangeci </h3>
-                  <div class="stars">
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-half-outline"></ion-icon>
-                  </div>
-                </div>
-              </div>
-              <p>This website is amazing! I found my dream house here, and the service was top-notch. The photos were accurate, and the descriptions were clear. Thank you for helping me find a great home!
-              </p>
-            </div>
-            <div class="box">
-              <div class="user">
-                <img src="./data/uploads/pic3.jpg" alt="pic3">
-                <div>
-                  <h3>Simon Tembu </h3>
-                  <div class="stars">
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-half-outline"></ion-icon>
-                  </div>
-                </div>
-              </div>
-              <p>I've had a great experience renting through this website. The search filters made it easy to find properties that matched my preferences, and the communication with the landlord was smooth and efficient. Definitely a trustworthy platform
-              </p>
-            </div>
-            <div class="box">
-              <div class="user">
-                <img src="./data/uploads/pic4.png" alt="pic4">
-                <div>
-                  <h3>Mbue Peter </h3>
-                  <div class="stars">
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-half-outline"></ion-icon>
-                  </div>
-                </div>
-              </div>
-              <p>I found my dream apartment on this website, and it exceeded all my expectations. Highly recommended!
-              </p>
-            </div>
-            <div class="box">
-              <div class="user">
-                <img src="./data/uploads/pic5.jpg" alt="pic5">
-                <div>
-                  <h3>Tiffany Wainaina </h3>
-                  <div class="stars">
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-half-outline"></ion-icon>
-                  </div>
-                </div>
-              </div>
-              <p>I've been using this website for real estate investments, and it's become my go-to platform. The market trends and analysis tools provided valuable insights, helping me make informed decisions. The user interface is intuitive, making it easy to navigate through different properties and neighborhoods. If you're serious about real estate investing, this is the site to use.
-              </p>
-            </div>
-            <div class="box">
-              <div class="user">
-                <img src="./data/uploads/pic6.jpg" alt="pic6">
-                <div>
-                  <h3>Mickey Kendi </h3>
-                  <div class="stars">
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-half-outline"></ion-icon>
-                  </div>
-                </div>
-              </div>
-              <p>I listed my property for sale on this website, and I was impressed by the level of exposure it received. The analytics provided helped me track the interest in my listing, and the communication tools made it easy to connect with potential buyers. The property sold quickly, and I attribute much of that success to the visibility this website provided. Highly recommended for sellers!
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+          <div class="container">
+              <p class="section-subtitle">Reviews</p>
+              <h2 class="h2 section-title">Latest Client's Reviews</h2>
+              <div class="box-container">
+                  <?php
+                  if ($result->num_rows > 0) {
+                      while ($row = $result->fetch_assoc()) {
+                          $username = htmlspecialchars($row['username']);
+                          $user_image_url = htmlspecialchars($row['user_image_url']);
+                          $rating = htmlspecialchars($row['rating']);
+                          $review = htmlspecialchars($row['review']);
+                          $full_stars = floor($rating);
+                          $half_star = ($rating - $full_stars >= 0.5) ? true : false;
+                          $empty_stars = 5 - $full_stars - ($half_star ? 1 : 0);
+                          ?>
 
+                          <div class="box">
+                              <div class="user">
+                                  <img src="<?php echo $user_image_url; ?>" alt="<?php echo $username; ?>">
+                                  <div>
+                                      <h3><?php echo $username; ?></h3>
+                                      <div class="stars">
+                                          <?php for ($i = 0; $i < $full_stars; $i++) { ?>
+                                              <ion-icon name="star-outline"></ion-icon>
+                                          <?php } ?>
+                                          <?php if ($half_star) { ?>
+                                              <ion-icon name="star-half-outline"></ion-icon>
+                                          <?php } ?>
+                                          <?php for ($i = 0; $i < $empty_stars; $i++) { ?>
+                                              <ion-icon name="star-outline"></ion-icon>
+                                          <?php } ?>
+                                      </div>
+                                  </div>
+                              </div>
+                              <p><?php echo $review; ?></p>
+                          </div>
+
+                          <?php
+                      }
+                  } else {
+                      echo "<p>No reviews available.</p>";
+                  }
+                  $conn->close();
+                  ?>
+              </div>
+          </div>
+      </section>
       <!--CONTACT US-->
       <section class="contact" id="contact">
         <div class="container">

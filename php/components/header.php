@@ -109,7 +109,7 @@
                             <a href="index.php#reviews" class="navbar-link" data-nav-link>Reviews</a>
                         </li>
                         <li>
-                            <a href="./php/reports.php" class="navbar-link" data-nav-link>Reports</a>
+                            <a href="./dashboard.php" class="navbar-link" data-nav-link>Dashboard</a>
                         </li>
                     </ul>
                 </div>
@@ -125,7 +125,6 @@
                     <div id="dropdown-content" class="dropdown-content">
                         <a href="login.php">Login</a>
                         <a href="signup.php">Signup</a>
-                        <a href="./php/dashboard.php"> Dashboard</a>
                     </div>
                 </div>
 

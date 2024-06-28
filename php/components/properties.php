@@ -74,9 +74,13 @@
                                 <p class="author-title">KREPM Agents</p>
                             </div>
                         </div>
-                        <div class="card-footer-actions">
-                        <a href="checkout.php?property_id=' . $row['property_id'] . '" class="btn">Reserve</a>
-                        </div>
+                        <div class="card-footer-actions">';
+                            if (isset($_SESSION['user_id'])) {
+                                echo '<a href="checkout.php?property_id=' . $row['property_id'] . '" class="btn"> Reserve Now</a>';
+                            } else {
+                                echo '<a href="login.php" class="btn">Reserve Now</a>';
+                            }
+                        echo '</div>
                     </div>
                 </div>
             </li>';
@@ -176,9 +180,13 @@
                             <p class="author-title">KREPM Agents</p>
                         </div>
                     </div>
-                    <div class="card-footer-actions">
-                    <a href="checkout.php?property_id=' . $row['property_id'] . '" class="btn">Reserve</a>
-                    </div>
+                    <div class="card-footer-actions">';
+                    if (isset($_SESSION['user_id'])) {
+                        echo '<a href="checkout.php?property_id=' . $row['property_id'] . '" class="btn"> Reserve Now</a>';
+                    } else {
+                        echo '<a href="login.php" class="btn">Reserve Now</a>';
+                    }
+                    echo '</div>
                 </div>
             </div>
         </li>';
